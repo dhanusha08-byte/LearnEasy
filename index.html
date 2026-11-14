@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEasy - Learning Made Easy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f0ff;
+            color: #333;
+        }
+
+        header {
+            background: #7041b8;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        .welcome h2 {
+            color: #7041b8;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .welcome p {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            background: white;
+            margin: 20px auto;
+            padding: 25px;
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px #ddd;
+        }
+
+        .dashboard h2 {
+            text-align: center;
+            color: #7041b8;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: #eee5ff;
+            padding: 22px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .stat-card h3 {
+            color: #7041b8;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #progressMessage {
+            text-align: center;
+            margin-top: 20px;
+            color: #7041b8;
+            font-weight: bold;
+        }
+
+        .modules {
+            padding: 30px 5%;
+        }
+
+        .modules h2 {
+            text-align: center;
+            color: #7041b8;
+            margin-bottom: 25px;
+            font-size: 27px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px #ddd;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card .emoji {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #7041b8;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .card button {
+            background: #7041b8;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .card button:hover {
+            background: #512b91;
+        }
+
+        footer {
+            background: #7041b8;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .welcome h2 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🌈 LearnEasy</h1>
+        <p>Learning Made Fun and Easy!</p>
+    </header>
+
+    <section class="welcome">
+        <h2>Welcome to LearnEasy! 💜</h2>
+        <p>
+            Hello Student! Let's learn something new today.
+            Explore lessons, play games and enjoy learning!
+        </p>
+    </section>
+
+    <!-- STUDENT PROGRESS DASHBOARD -->
+
+    <section class="dashboard">
+        <h2>📊 Student Progress Dashboard</h2>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>📚 Lessons Explored</h3>
+                <p id="lessonCount">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>🎮 Matching Score</h3>
+                <p id="gameScore">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>⭐ Reward Stars</h3>
+                <p id="starCount">0</p>
+            </div>
+
+        </div>
+
+        <p id="progressMessage">
+            Start learning to see your progress!
+        </p>
+    </section>
+
+    <!-- LEARNING MODULES -->
+
+    <section class="modules">
+        <h2>Explore Our Learning Modules 📖</h2>
+
+        <div class="card-container">
+
+            <div class="card">
+                <div class="emoji">🔤</div>
+                <h3>Alphabets</h3>
+                <p>Learn letters from A to Z.</p>
+                <button onclick="openModule('alphabet.html')">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🔢</div>
+                <h3>Numbers</h3>
+                <p>Learn numbers from 1 to 20.</p>
+                <button onclick="openModule('numbers.html')">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🎨</div>
+                <h3>Colours</h3>
+                <p>Discover different colours.</p>
+                <button onclick="openModule('colours.html')">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🔺</div>
+                <h3>Shapes</h3>
+                <p>Explore different shapes.</p>
+                <button onclick="openModule('shapes.html')">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🍎</div>
+                <h3>Fruits and Animals</h3>
+                <p>Learn about fruits and animals.</p>
+                <button onclick="openModule('fruits-animals.html')">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🧩</div>
+                <h3>Matching Game</h3>
+                <p>Match pictures with their names.</p>
+                <button onclick="openModule('matching.html')">
+                    Play Game
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 LearnEasy | Learn, Play and Grow! 💜</p>
+    </footer>
+
+    <script>
+
+        // LOAD STUDENT PROGRESS FROM FLASK
+
+        async function updateDashboard() {
+
+            try {
+                const response = await fetch("/api/progress");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load progress");
+                }
+
+                const data = await response.json();
+
+                document.getElementById("lessonCount").textContent =
+                    data.lessons_explored;
+
+                document.getElementById("gameScore").textContent =
+                    data.game_score + " / 3";
+
+                document.getElementById("starCount").textContent =
+                    data.reward_stars;
+
+                document.getElementById("progressMessage").textContent =
+                    data.lessons_explored > 0
+                    ? "Great work! Keep learning and collecting stars! 🌟"
+                    : "Start learning to see your progress!";
+
+            } catch (error) {
+
+                console.error("Dashboard error:", error);
+
+                document.getElementById("progressMessage").textContent =
+                    "Unable to load progress. Please try again.";
+
+            }
+        }
+
+
+        // SAVE LESSON VISITS AND OPEN MODULE
+
+        async function openModule(page) {
+
+            const pageNames = {
+                "alphabet.html": "alphabet",
+                "numbers.html": "numbers",
+                "colours.html": "colours",
+                "shapes.html": "shapes",
+                "fruits-animals.html": "fruits-animals",
+                "matching.html": "matching"
+            };
+
+            const pageName = pageNames[page];
+
+            if (pageName) {
+
+                try {
+                    const response = await fetch("/api/visit", {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            page: pageName
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Could not save lesson visit");
+                    }
+
+                } catch (error) {
+                    console.error("Visit error:", error);
+                }
+            }
+
+            window.location.href = page;
+        }
+
+
+        // LOAD DASHBOARD WHEN HOME PAGE OPENS
+
+        updateDashboard();
+
+    </script>
+
+</body>
+</html>

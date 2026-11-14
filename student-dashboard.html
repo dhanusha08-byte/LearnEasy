@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - LearnEasy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef4ff;
+            color: #333;
+        }
+
+        header {
+            background: #3157a4;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px #d5dce8;
+            text-align: center;
+        }
+
+        .card .emoji {
+            font-size: 40px;
+        }
+
+        .card h2 {
+            color: #3157a4;
+        }
+
+        .card button {
+            background: #3157a4;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background: #24417e;
+        }
+
+        .section {
+            background: white;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #3157a4;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>👩‍🏫 LearnEasy Teacher Dashboard</h1>
+    <p>Manage learning and support your students!</p>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Welcome, Teacher! 🌟</h2>
+        <p>Here you can explore learning materials and manage classroom activities.</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="emoji">📚</div>
+            <h2>Learning Materials</h2>
+            <p>Explore alphabets, numbers and colours lessons.</p>
+            <button onclick="location.href='alphabet.html'">
+                View Lessons
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="emoji">📝</div>
+            <h2>Create Quizzes</h2>
+            <p>Prepare simple questions for students.</p>
+            <button onclick="showMessage('Quiz creation feature is coming soon!')">
+                Create Quiz
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="emoji">🎯</div>
+            <h2>Activities</h2>
+            <p>Explore fun educational activities.</p>
+            <button onclick="location.href='activities.html'">
+                View Activities
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="emoji">📊</div>
+            <h2>Student Progress</h2>
+            <p>Check the student progress feature.</p>
+            <button onclick="showMessage('Student progress feature is coming soon!')">
+                View Progress
+            </button>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>💡 Teaching Tip</h2>
+        <p>Encourage children to learn through pictures, colours and interactive activities.</p>
+    </div>
+
+</div>
+
+<footer>
+    <a href="index.html">⬅ Back to Home</a>
+    <p>© 2026 LearnEasy | Learning Made Fun!</p>
+</footer>
+
+<script>
+    function showMessage(message) {
+        alert(message);
+    }
+</script>
+
+</body>
+</html>

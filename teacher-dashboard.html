@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard - LearnEasy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f6ff;
+            margin: 0;
+            text-align: center;
+        }
+
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 25px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px #ccc;
+        }
+
+        .card a {
+            display: inline-block;
+            background: #4a90e2;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .logout {
+            display: inline-block;
+            margin: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Teacher Dashboard</h1>
+    <p>Welcome to LearnEasy</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📚 Training Materials</h2>
+        <p>Access learning materials for students.</p>
+        <a href="alphabet.html">Open</a>
+    </div>
+
+    <div class="card">
+        <h2>📝 Create Quiz</h2>
+        <p>Create quizzes for students.</p>
+        <a href="create-quiz.html">Open</a>
+    </div>
+
+    <div class="card">
+        <h2>📊 Student Progress</h2>
+        <p>View student learning progress.</p>
+        <a href="student-progress.html">Open</a>
+    </div>
+
+</div>
+
+<a class="logout" href="login.html">Logout</a>
+
+</body>
+</html>

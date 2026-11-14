@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEasy - Alphabets</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f8ff;
+            text-align: center;
+            margin: 0;
+        }
+
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            padding: 25px;
+        }
+
+        .letters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 700px;
+            margin: 25px auto;
+        }
+
+        .letter {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 5px;
+            box-shadow: 0 3px 8px #ccc;
+            cursor: pointer;
+        }
+
+        .letter h2 {
+            font-size: 35px;
+            color: #4a90e2;
+            margin: 5px;
+        }
+
+        .letter p {
+            font-size: 16px;
+        }
+
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        @media(max-width: 450px) {
+            .letters {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔤 Learn Alphabets</h1>
+    <p>Let's learn A to Z!</p>
+</header>
+
+<div class="container">
+    <h2>Click on a letter to learn!</h2>
+
+    <div class="letters" id="letters"></div>
+
+    <h2 id="result">Choose a letter!</h2>
+
+    <button onclick="location.href='index.html'">
+        🏠 Back to Home
+    </button>
+</div>
+
+<script>
+    const alphabet = [
+        ["A", "Apple"], ["B", "Ball"],
+        ["C", "Cat"], ["D", "Dog"],
+        ["E", "Elephant"], ["F", "Fish"],
+        ["G", "Grapes"], ["H", "House"],
+        ["I", "Ice cream"], ["J", "Jug"],
+        ["K", "Kite"], ["L", "Lion"],
+        ["M", "Mango"], ["N", "Nest"],
+        ["O", "Orange"], ["P", "Parrot"],
+        ["Q", "Queen"], ["R", "Rabbit"],
+        ["S", "Sun"], ["T", "Tiger"],
+        ["U", "Umbrella"], ["V", "Van"],
+        ["W", "Watch"], ["X", "Xylophone"],
+        ["Y", "Yak"], ["Z", "Zebra"]
+    ];
+
+    const container = document.getElementById("letters");
+
+    alphabet.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "letter";
+
+        card.innerHTML = `
+            <h2>${item[0]}</h2>
+            <p>${item[1]}</p>
+            <button>🔊 Listen</button>
+        `;
+
+        card.addEventListener("click", () => {
+            document.getElementById("result").innerText =
+                item[0] + " for " + item[1];
+
+            const speech = new SpeechSynthesisUtterance(
+                item[0] + " for " + item[1]
+            );
+
+            speechSynthesis.cancel();
+            speechSynthesis.speak(speech);
+        });
+
+        container.appendChild(card);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEasy - Matching Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f0ff;
+            text-align: center;
+            margin: 0;
+            color: #333;
+        }
+
+        header {
+            background: #7041b8;
+            color: white;
+            padding: 25px;
+        }
+
+        .container {
+            background: white;
+            max-width: 850px;
+            width: 90%;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px #ddd;
+        }
+
+        h2, h3 {
+            color: #7041b8;
+        }
+
+        .score {
+            font-size: 23px;
+            font-weight: bold;
+            color: #7041b8;
+            margin: 20px;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .item {
+            background: #eee5ff;
+            padding: 18px;
+            margin: 12px 0;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            width: 100%;
+            min-height: 65px;
+        }
+
+        .item.selected {
+            border-color: #7041b8;
+            background: #d9c5ff;
+        }
+
+        .item.matched {
+            background: #d8f5df;
+            border-color: #45a35b;
+            cursor: default;
+        }
+
+        .item:disabled {
+            color: #333;
+            opacity: 0.8;
+        }
+
+        #message {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px;
+            min-height: 28px;
+        }
+
+        .action {
+            background: #7041b8;
+            color: white;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 16px;
+        }
+
+        .action:hover {
+            background: #512b91;
+        }
+
+        footer {
+            background: #7041b8;
+            color: white;
+            padding: 18px;
+            margin-top: 30px;
+        }
+
+        @media(max-width: 500px) {
+            .game-area {
+                gap: 10px;
+            }
+
+            .item {
+                font-size: 16px;
+                padding: 12px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🧩 LearnEasy Matching Game</h1>
+    <p>Match the pictures with their names!</p>
+</header>
+
+<div class="container">
+
+    <h2>Let's Play! 🎮</h2>
+    <p>Select a fruit picture and then its correct name.</p>
+
+    <div class="score">
+        Score: <span id="score">0</span> / 3
+    </div>
+
+    <div class="game-area">
+
+        <div>
+            <h3>🍎 Pictures</h3>
+
+            <button class="item fruit" data-answer="apple">
+                🍎 Apple Picture
+            </button>
+
+            <button class="item fruit" data-answer="banana">
+                🍌 Banana Picture
+            </button>
+
+            <button class="item fruit" data-answer="mango">
+                🥭 Mango Picture
+            </button>
+        </div>
+
+        <div>
+            <h3>📝 Names</h3>
+
+            <button class="item name" data-answer="mango">
+                Mango
+            </button>
+
+            <button class="item name" data-answer="apple">
+                Apple
+            </button>
+
+            <button class="item name" data-answer="banana">
+                Banana
+            </button>
+        </div>
+
+    </div>
+
+    <p id="message">Choose a fruit to begin! 🌟</p>
+
+    <button class="action" onclick="playAgain()">
+        🔄 Play Again
+    </button>
+
+    <button class="action" onclick="goHome()">
+        🏠 Home
+    </button>
+
+</div>
+
+<footer>
+    <p>LearnEasy | Learn, Play and Grow! 💜</p>
+</footer>
+
+<script>
+
+    let selectedFruit = null;
+    let selectedName = null;
+    let matched = 0;
+    let gameFinished = false;
+    let checking = false;
+
+    const fruits = document.querySelectorAll(".fruit");
+    const names = document.querySelectorAll(".name");
+
+    const scoreDisplay = document.getElementById("score");
+    const message = document.getElementById("message");
+
+
+    // SAVE SCORE TO FLASK AND SQLITE
+
+    async function saveScore(score) {
+
+        try {
+
+            const response = await fetch("/api/score", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    score: score
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Score could not be saved");
+            }
+
+            console.log("Score saved successfully!");
+
+            return true;
+
+        } catch (error) {
+
+            console.error("Database error:", error);
+
+            message.textContent =
+                "Could not save score. Please check the server.";
+
+            return false;
+        }
+    }
+
+
+    // SELECT A FRUIT OR NAME
+
+    function selectItem(item, type) {
+
+        if (gameFinished || checking || item.disabled) {
+            return;
+        }
+
+        if (type === "fruit") {
+
+            if (selectedFruit) {
+                selectedFruit.classList.remove("selected");
+            }
+
+            selectedFruit = item;
+            selectedFruit.classList.add("selected");
+
+        } else {
+
+            if (selectedName) {
+                selectedName.classList.remove("selected");
+            }
+
+            selectedName = item;
+            selectedName.classList.add("selected");
+        }
+
+        if (selectedFruit && selectedName) {
+            checkMatch();
+        }
+    }
+
+
+    // CHECK THE MATCH
+
+    async function checkMatch() {
+
+        checking = true;
+
+        const fruitAnswer = selectedFruit.dataset.answer;
+        const nameAnswer = selectedName.dataset.answer;
+
+        if (fruitAnswer === nameAnswer) {
+
+            selectedFruit.classList.remove("selected");
+            selectedName.classList.remove("selected");
+
+            selectedFruit.classList.add("matched");
+            selectedName.classList.add("matched");
+
+            selectedFruit.disabled = true;
+            selectedName.disabled = true;
+
+            matched++;
+
+            scoreDisplay.textContent = matched;
+
+            message.textContent = "Correct match! Well done! ⭐";
+
+            selectedFruit = null;
+            selectedName = null;
+
+            await saveScore(matched);
+
+            if (matched === 3) {
+
+                gameFinished = true;
+
+                message.textContent =
+                    "🎉 Congratulations! You matched all fruits! ⭐⭐⭐";
+
+            }
+
+        } else {
+
+            message.textContent =
+                "Not quite! Try another match. 😊";
+
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            selectedFruit.classList.remove("selected");
+            selectedName.classList.remove("selected");
+
+            selectedFruit = null;
+            selectedName = null;
+        }
+
+        checking = false;
+    }
+
+
+    // ADD CLICK EVENTS
+
+    fruits.forEach(fruit => {
+        fruit.addEventListener("click", function() {
+            selectItem(this, "fruit");
+        });
+    });
+
+    names.forEach(name => {
+        name.addEventListener("click", function() {
+            selectItem(this, "name");
+        });
+    });
+
+
+    // START A NEW GAME
+
+    async function playAgain() {
+
+        matched = 0;
+        selectedFruit = null;
+        selectedName = null;
+        gameFinished = false;
+        checking = false;
+
+        scoreDisplay.textContent = 0;
+        message.textContent = "Choose a fruit to begin! 🌟";
+
+        document.querySelectorAll(".item").forEach(item => {
+            item.disabled = false;
+            item.classList.remove("selected", "matched");
+        });
+
+        await saveScore(0);
+    }
+
+
+    // RETURN TO HOME PAGE
+
+    function goHome() {
+        window.location.href = "/";
+    }
+
+
+    // RESET SCORE WHEN A NEW GAME OPENS
+
+    saveScore(0);
+
+</script>
+
+</body>
+</html>

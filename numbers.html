@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Numbers - LearnEasy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>🔢 Let's Learn Numbers!</h1>
+    <p>Learn numbers, count objects and play a fun game!</p>
+
+    <h2>1. Learn Numbers</h2>
+    <div class="number-container">
+        <button onclick="speak('One')">1️⃣ One 🔊</button>
+        <button onclick="speak('Two')">2️⃣ Two 🔊</button>
+        <button onclick="speak('Three')">3️⃣ Three 🔊</button>
+        <button onclick="speak('Four')">4️⃣ Four 🔊</button>
+        <button onclick="speak('Five')">5️⃣ Five 🔊</button>
+        <button onclick="speak('Six')">6️⃣ Six 🔊</button>
+        <button onclick="speak('Seven')">7️⃣ Seven 🔊</button>
+        <button onclick="speak('Eight')">8️⃣ Eight 🔊</button>
+        <button onclick="speak('Nine')">9️⃣ Nine 🔊</button>
+        <button onclick="speak('Ten')">🔟 Ten 🔊</button>
+    </div>
+
+    <h2>2. Count the Objects</h2>
+    <p>🍎 🍎 🍎</p>
+    <p>How many apples are there?</p>
+    <button onclick="checkCount(3)">3</button>
+    <button onclick="checkCount(2)">2</button>
+    <button onclick="checkCount(4)">4</button>
+    <p id="count-result"></p>
+
+    <h2>3. Number Quiz</h2>
+    <p>Which number comes after 4?</p>
+    <button onclick="checkQuiz(5)">5</button>
+    <button onclick="checkQuiz(6)">6</button>
+    <button onclick="checkQuiz(3)">3</button>
+    <p id="quiz-result"></p>
+
+<h2>4. Match the Number</h2>
+<p>Which number matches FIVE?</p>
+
+<button onclick="matchNumber(3)">3</button>
+<button onclick="matchNumber(5)">5</button>
+<button onclick="matchNumber(7)">7</button>
+
+<p id="match-result"></p>
+
+    <br>
+    <a href="index.html">⬅ Back to Home</a>
+
+    <script>
+        function speak(word) {
+            const speech = new SpeechSynthesisUtterance(word);
+            speech.lang = "en-US";
+            speechSynthesis.speak(speech);
+        }
+
+        function checkCount(answer) {
+            document.getElementById("count-result").textContent =
+                answer === 3 ? "🎉 Excellent! There are 3 apples!" :
+                "Try again! Count the apples carefully.";
+        }
+
+        function checkQuiz(answer) {
+            document.getElementById("quiz-result").textContent =
+                answer === 5 ? "🌟 Correct! Great job!" :
+                "Try again! You can do it!";
+        }
+
+function matchNumber(answer) {
+    document.getElementById("match-result").textContent =
+        answer === 5
+        ? "🌟 Amazing! You matched FIVE correctly!"
+        : "😊 Try again! Look carefully.";
+}
+
+    </script>
+
+</body>
+</html>

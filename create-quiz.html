@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz - LearnEasy</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef4ff;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .container {
+            background: white;
+            max-width: 550px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px #ccc;
+        }
+
+        h1 {
+            color: #3157a4;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 12px;
+            margin: 10px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #3157a4;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #result {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📝 Create a Quiz</h1>
+    <p>Prepare a simple quiz for students!</p>
+
+    <form id="quizForm">
+
+        <input type="text" id="question"
+        placeholder="Enter your question" required>
+
+        <input type="text" id="option1"
+        placeholder="Option 1" required>
+
+        <input type="text" id="option2"
+        placeholder="Option 2" required>
+
+        <input type="text" id="option3"
+        placeholder="Option 3" required>
+
+        <select id="answer" required>
+            <option value="">Select correct answer</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+        </select>
+
+        <br>
+
+        <button type="submit">Save Quiz</button>
+
+    </form>
+
+    <p id="result"></p>
+
+    <br>
+    <a href="teacher-dashboard.html">⬅ Back to Dashboard</a>
+
+</div>
+
+<script>
+    document.getElementById("quizForm").addEventListener("submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const question =
+                document.getElementById("question").value;
+
+            const options = [
+                document.getElementById("option1").value,
+                document.getElementById("option2").value,
+                document.getElementById("option3").value
+            ];
+
+            const answer =
+                document.getElementById("answer").value;
+
+            const quiz = {
+                question: question,
+                options: options,
+                answer: answer
+            };
+
+            let quizzes = JSON.parse(
+                localStorage.getItem("learnEasyQuizzes") || "[]"
+            );
+
+            quizzes.push(quiz);
+
+            localStorage.setItem(
+                "learnEasyQuizzes",
+                JSON.stringify(quizzes)
+            );
+
+            document.getElementById("result").textContent =
+                "🎉 Quiz saved successfully!";
+
+            document.getElementById("quizForm").reset();
+        }
+    );
+</script>
+
+</body>
+</html>

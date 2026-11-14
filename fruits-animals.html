@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEasy - Fruits and Animals</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #fff8e1;
+            margin: 0;
+        }
+
+        header {
+            background: #ff9800;
+            color: white;
+            padding: 25px;
+        }
+
+        h2 {
+            color: #388e3c;
+            margin-top: 30px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 18px;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .picture {
+            font-size: 60px;
+        }
+
+        .name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #388e3c;
+        }
+
+        .back {
+            display: inline-block;
+            background: #4a90e2;
+            color: white;
+            padding: 12px 20px;
+            margin: 25px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍎 Fruits and Animals 🐘</h1>
+    <p>Learn with Fun!</p>
+</header>
+
+<h2>🍓 Learn Fruits</h2>
+
+<div class="container">
+
+    <div class="card">
+        <div class="picture">🍎</div>
+        <p class="name">Apple</p>
+        <button onclick="speak('Apple')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🍌</div>
+        <p class="name">Banana</p>
+        <button onclick="speak('Banana')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🥭</div>
+        <p class="name">Mango</p>
+        <button onclick="speak('Mango')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🍊</div>
+        <p class="name">Orange</p>
+        <button onclick="speak('Orange')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🍇</div>
+        <p class="name">Grapes</p>
+        <button onclick="speak('Grapes')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🍉</div>
+        <p class="name">Watermelon</p>
+        <button onclick="speak('Watermelon')">🔊 Listen</button>
+    </div>
+
+</div>
+
+<h2>🐶 Learn Animals</h2>
+
+<div class="container">
+
+    <div class="card">
+        <div class="picture">🐶</div>
+        <p class="name">Dog</p>
+        <button onclick="speak('Dog')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🐱</div>
+        <p class="name">Cat</p>
+        <button onclick="speak('Cat')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🐘</div>
+        <p class="name">Elephant</p>
+        <button onclick="speak('Elephant')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🦁</div>
+        <p class="name">Lion</p>
+        <button onclick="speak('Lion')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🐵</div>
+        <p class="name">Monkey</p>
+        <button onclick="speak('Monkey')">🔊 Listen</button>
+    </div>
+
+    <div class="card">
+        <div class="picture">🐰</div>
+        <p class="name">Rabbit</p>
+        <button onclick="speak('Rabbit')">🔊 Listen</button>
+    </div>
+
+</div>
+
+<a href="index.html" class="back">⬅ Back to Home</a>
+
+<script>
+    function speak(word) {
+        window.speechSynthesis.cancel();
+
+        const speech = new SpeechSynthesisUtterance(word);
+        speech.lang = "en-US";
+
+        window.speechSynthesis.speak(speech);
+    }
+</script>
+
+</body>
+</html>
+

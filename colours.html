@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEasy - Colours</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5ff;
+            text-align: center;
+            margin: 0;
+        }
+
+        header {
+            background: #9b59b6;
+            color: white;
+            padding: 25px;
+        }
+
+        .welcome {
+            padding: 20px;
+        }
+
+        .colours {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 850px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 3px 8px #ccc;
+        }
+
+        .colour-box {
+            height: 100px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+        }
+
+        button {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .home {
+            margin: 25px;
+            background: #4a90e2;
+        }
+
+        @media(max-width: 500px) {
+            .colours {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎨 Learn Colours</h1>
+    <p>Let's discover beautiful colours!</p>
+</header>
+
+<div class="welcome">
+    <h2>Welcome to Colours Learning!</h2>
+    <p>Click Listen to hear each colour.</p>
+</div>
+
+<div class="colours" id="colours"></div>
+
+<h2 id="result">Choose a colour!</h2>
+
+<button class="home" onclick="location.href='index.html'">
+    🏠 Back to Home
+</button>
+
+<script>
+
+const colourList = [
+    ["Red", "#ff0000"],
+    ["Blue", "#0000ff"],
+    ["Green", "#008000"],
+    ["Yellow", "#ffff00"],
+    ["Orange", "#ffa500"],
+    ["Pink", "#ff69b4"],
+    ["Purple", "#800080"],
+    ["Black", "#000000"],
+    ["White", "#ffffff"]
+];
+
+const container = document.getElementById("colours");
+
+colourList.forEach(item => {
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+        <div class="colour-box"
+        style="background:${item[1]};
+        border: 1px solid #ccc;"></div>
+
+        <h3>${item[0]}</h3>
+
+        <button>🔊 Listen</button>
+    `;
+
+    card.addEventListener("click", () => {
+
+        document.getElementById("result").innerText =
+            "This colour is " + item[0];
+
+        const speech = new SpeechSynthesisUtterance(item[0]);
+
+        speechSynthesis.cancel();
+        speechSynthesis.speak(speech);
+
+    });
+
+    container.appendChild(card);
+
+});
+
+</script>
+
+</body>
+</html>
