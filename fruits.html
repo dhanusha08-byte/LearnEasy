@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnEasy - Fruits</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff7e6;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 { color: #e67e22; }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 750px;
+      margin: 30px auto;
+    }
+
+    .fruit {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #0002;
+    }
+
+    .emoji { font-size: 55px; }
+
+    button {
+      background: #e67e22;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍎 Learn About Fruits</h1>
+  <p>Let's discover some delicious fruits!</p>
+
+  <div class="container">
+    <div class="fruit"><div class="emoji">🍎</div><h2>Apple</h2></div>
+    <div class="fruit"><div class="emoji">🍌</div><h2>Banana</h2></div>
+    <div class="fruit"><div class="emoji">🥭</div><h2>Mango</h2></div>
+    <div class="fruit"><div class="emoji">🍇</div><h2>Grapes</h2></div>
+    <div class="fruit"><div class="emoji">🍊</div><h2>Orange</h2></div>
+    <div class="fruit"><div class="emoji">🍉</div><h2>Watermelon</h2></div>
+  </div>
+
+  <button onclick="location.href='activities.html'">
+    Back to Activities
+  </button>
+
+</body>
+</html>

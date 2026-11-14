@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnEasy - Activities</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #eaf3ff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #2563eb;
+      margin-top: 25px;
+    }
+
+    .subtitle {
+      color: #555;
+      font-size: 17px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 850px;
+      margin: 35px auto;
+    }
+
+    .card {
+      background: white;
+      padding: 25px 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .emoji {
+      font-size: 55px;
+    }
+
+    .card h2 {
+      color: #2563eb;
+    }
+
+    .card p {
+      color: #666;
+    }
+
+    .card button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+
+    .card button:hover {
+      background: #1d4ed8;
+    }
+
+    .back-button {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎯 Fun Learning Activities</h1>
+
+  <p class="subtitle">
+    Choose an activity and enjoy learning!
+  </p>
+
+  <div class="container">
+
+    <!-- Fruits -->
+    <div class="card">
+      <div class="emoji">🍎</div>
+      <h2>Fruits</h2>
+      <p>Discover different fruits.</p>
+      <button onclick="window.location.href='fruits.html'">
+        Explore
+      </button>
+    </div>
+
+    <!-- Animals -->
+    <div class="card">
+      <div class="emoji">🐘</div>
+      <h2>Animals</h2>
+      <p>Discover amazing animals.</p>
+      <button onclick="window.location.href='animals.html'">
+        Explore
+      </button>
+    </div>
+
+    <!-- Shapes -->
+    <div class="card">
+      <div class="emoji">🔷</div>
+      <h2>Shapes</h2>
+      <p>Learn different shapes.</p>
+      <button onclick="window.location.href='shapes.html'">
+        Explore
+      </button>
+    </div>
+
+    <!-- Red Colour -->
+    <div class="card">
+      <div class="emoji">❤️</div>
+      <h2>Red Colour</h2>
+      <p>Explore beautiful red things.</p>
+      <button onclick="window.location.href='red.html'">
+        Explore
+      </button>
+    </div>
+
+  </div>
+
+  <button class="back-button"
+    onclick="window.location.href='student-dashboard.html'">
+    ← Back to Student Dashboard
+  </button>
+
+</body>
+</html>

@@ -2,212 +2,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearnEasy Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnEasy - Login</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eaf3ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef4ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 320px;
+      max-width: 85%;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-        .container {
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 550px;
-            box-shadow: 0 5px 20px #ccd5e5;
-        }
+    h1 {
+      color: #2563eb;
+    }
 
-        h1 {
-            color: #3157a4;
-        }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border-radius: 8px;
+      font-size: 16px;
+    }
 
-        p {
-            color: #666;
-        }
+    input, select {
+      border: 1px solid #ccc;
+    }
 
-        .roles {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-        .role {
-            flex: 1;
-            padding: 22px 10px;
-            border-radius: 15px;
-            border: 2px solid #dce5f5;
-            background: #f8faff;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .role:hover, .role.selected {
-            background: #dce8ff;
-            border: 3px solid #3157a4;
-        }
-
-        .emoji {
-            display: block;
-            font-size: 38px;
-            margin-bottom: 12px;
-        }
-
-        #nameSection {
-            display: none;
-            margin-top: 25px;
-        }
-
-        #userName {
-            width: 100%;
-            padding: 13px;
-            border: 2px solid #dce5f5;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        #continueBtn {
-            margin-top: 25px;
-            padding: 13px 35px;
-            background: #3157a4;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 17px;
-            cursor: pointer;
-        }
-
-        #message {
-            color: #d35400;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 450px) {
-            .roles {
-                flex-direction: column;
-            }
-        }
-    </style>
+    button:hover {
+      background: #1d4ed8;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="login-box">
+    <h1>LearnEasy</h1>
+    <h3>Welcome! Please Login</h3>
 
-    <h1>Welcome to LearnEasy!</h1>
-    <p>Who are you logging in as?</p>
+    <label for="role">Select Your Role</label>
+    <select id="role" onchange="toggleNameField()">
+      <option value="">Choose your role</option>
+      <option value="Student">Student</option>
+      <option value="Teacher">Teacher</option>
+      <option value="Parent">Parent</option>
+    </select>
 
-    <div class="roles">
-
-        <button class="role" onclick="selectRole('Student', this)">
-            <span class="emoji">🎓</span>
-            Student
-        </button>
-
-        <button class="role" onclick="selectRole('Parent', this)">
-            <span class="emoji">👨‍👩‍👧</span>
-            Parent
-        </button>
-
-        <button class="role" onclick="selectRole('Teacher', this)">
-            <span class="emoji">📚</span>
-            Teacher
-        </button>
-
+    <div id="nameSection" style="display: none;">
+      <input
+        type="text"
+        id="studentName"
+        placeholder="Enter Student Name"
+      >
     </div>
 
-    <div id="nameSection">
-        <p>Enter your name:</p>
-        <input
-            type="text"
-            id="userName"
-            placeholder="Enter your name"
-            maxlength="40"
-        >
-    </div>
+    <button onclick="login()">Continue</button>
+  </div>
 
-    <button id="continueBtn" onclick="continueLogin()">
-        Continue →
-    </button>
+  <script>
+    function toggleNameField() {
+      const role = document.getElementById("role").value;
+      const nameSection = document.getElementById("nameSection");
+      const studentName = document.getElementById("studentName");
 
-    <p id="message"></p>
-
-</div>
-
-<script>
-
-    let selectedRole = "";
-
-    function selectRole(role, button) {
-
-        selectedRole = role;
-
-        document.querySelectorAll(".role").forEach(function(card) {
-            card.classList.remove("selected");
-        });
-
-        button.classList.add("selected");
-
-        document.getElementById("nameSection").style.display = "block";
-
-        document.getElementById("message").textContent =
-            role + " selected! Enter your name.";
-
-        document.getElementById("userName").focus();
+      if (role === "Student") {
+        nameSection.style.display = "block";
+      } else {
+        nameSection.style.display = "none";
+        studentName.value = "";
+      }
     }
 
-    function continueLogin() {
+    function login() {
+      const role = document.getElementById("role").value;
+      const name = document.getElementById("studentName").value.trim();
 
-        if (selectedRole === "") {
-            document.getElementById("message").textContent =
-                "Please select your role first!";
-            return;
-        }
+      if (role === "") {
+        alert("Please select your role.");
+        return;
+      }
 
-        let name = document.getElementById("userName").value.trim();
+      if (role === "Student" && name === "") {
+        alert("Please enter your name.");
+        return;
+      }
 
-        if (name === "") {
-            document.getElementById("message").textContent =
-                "Please enter your name!";
-            return;
-        }
+      sessionStorage.setItem("userRole", role);
 
-        sessionStorage.setItem("userRole", selectedRole);
+      if (role === "Student") {
         sessionStorage.setItem("userName", name);
-
-        if (selectedRole === "Student") {
-
-            localStorage.setItem("learnEasyStudentName", name);
-
-            window.location.href = "student-dashboard.html";
-
-        }
-
-        else if (selectedRole === "Teacher") {
-            window.location.href = "teacher-dashboard.html";
-        }
-
-        else if (selectedRole === "Parent") {
-            window.location.href = "parent-dashboard.html";
-        }
-
+        localStorage.setItem("learnEasyStudentName", name);
+        window.location.href = "student-dashboard.html";
+      } 
+      else if (role === "Teacher") {
+        window.location.href = "teacher-dashboard.html";
+      } 
+      else if (role === "Parent") {
+        window.location.href = "parent-dashboard.html";
+      }
     }
-
-</script>
+  </script>
 
 </body>
 </html>

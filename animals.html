@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnEasy - Animals</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #effaf0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 { color: #27834a; }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 750px;
+      margin: 30px auto;
+    }
+
+    .animal {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #0002;
+    }
+
+    .emoji { font-size: 55px; }
+
+    button {
+      background: #27834a;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐾 Learn About Animals</h1>
+  <p>Let's discover some amazing animals!</p>
+
+  <div class="container">
+    <div class="animal"><div class="emoji">🦁</div><h2>Lion</h2></div>
+    <div class="animal"><div class="emoji">🐘</div><h2>Elephant</h2></div>
+    <div class="animal"><div class="emoji">🐒</div><h2>Monkey</h2></div>
+    <div class="animal"><div class="emoji">🐰</div><h2>Rabbit</h2></div>
+    <div class="animal"><div class="emoji">🐶</div><h2>Dog</h2></div>
+    <div class="animal"><div class="emoji">🐱</div><h2>Cat</h2></div>
+  </div>
+
+  <button onclick="location.href='activities.html'">
+    Back to Activities
+  </button>
+
+</body>
+</html>
