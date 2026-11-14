@@ -56,12 +56,7 @@
             font-weight: bold;
         }
 
-        .role:hover {
-            background: #e2ebff;
-            border-color: #557bd1;
-        }
-
-        .role.selected {
+        .role:hover, .role.selected {
             background: #dce8ff;
             border: 3px solid #3157a4;
         }
@@ -70,6 +65,19 @@
             display: block;
             font-size: 38px;
             margin-bottom: 12px;
+        }
+
+        #nameSection {
+            display: none;
+            margin-top: 25px;
+        }
+
+        #userName {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #dce5f5;
+            border-radius: 10px;
+            font-size: 16px;
         }
 
         #continueBtn {
@@ -81,10 +89,6 @@
             border-radius: 12px;
             font-size: 17px;
             cursor: pointer;
-        }
-
-        #continueBtn:hover {
-            background: #24417e;
         }
 
         #message {
@@ -102,82 +106,108 @@
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Welcome to LearnEasy!</h1>
-        <p>Who are you logging in as?</p>
+    <h1>Welcome to LearnEasy!</h1>
+    <p>Who are you logging in as?</p>
 
-        <div class="roles">
+    <div class="roles">
 
-            <button class="role" onclick="selectRole('Student', this)">
-                <span class="emoji">🎓</span>
-                Student
-            </button>
-
-            <button class="role" onclick="selectRole('Parent', this)">
-                <span class="emoji">👨‍👩‍👧</span>
-                Parent
-            </button>
-
-            <button class="role" onclick="selectRole('Teacher', this)">
-                <span class="emoji">📚</span>
-                Teacher
-            </button>
-
-        </div>
-
-        <button id="continueBtn" onclick="continueLogin()">
-            Continue →
+        <button class="role" onclick="selectRole('Student', this)">
+            <span class="emoji">🎓</span>
+            Student
         </button>
 
-        <p id="message"></p>
+        <button class="role" onclick="selectRole('Parent', this)">
+            <span class="emoji">👨‍👩‍👧</span>
+            Parent
+        </button>
+
+        <button class="role" onclick="selectRole('Teacher', this)">
+            <span class="emoji">📚</span>
+            Teacher
+        </button>
 
     </div>
 
-    <script>
+    <div id="nameSection">
+        <p>Enter your name:</p>
+        <input
+            type="text"
+            id="userName"
+            placeholder="Enter your name"
+            maxlength="40"
+        >
+    </div>
 
-        let selectedRole = "";
+    <button id="continueBtn" onclick="continueLogin()">
+        Continue →
+    </button>
 
-        function selectRole(role, button) {
+    <p id="message"></p>
 
-            selectedRole = role;
+</div>
 
-            document.querySelectorAll(".role").forEach(function(card) {
-                card.classList.remove("selected");
-            });
+<script>
 
-            button.classList.add("selected");
+    let selectedRole = "";
 
+    function selectRole(role, button) {
+
+        selectedRole = role;
+
+        document.querySelectorAll(".role").forEach(function(card) {
+            card.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+
+        document.getElementById("nameSection").style.display = "block";
+
+        document.getElementById("message").textContent =
+            role + " selected! Enter your name.";
+
+        document.getElementById("userName").focus();
+    }
+
+    function continueLogin() {
+
+        if (selectedRole === "") {
             document.getElementById("message").textContent =
-                role + " selected! Click Continue.";
+                "Please select your role first!";
+            return;
+        }
+
+        let name = document.getElementById("userName").value.trim();
+
+        if (name === "") {
+            document.getElementById("message").textContent =
+                "Please enter your name!";
+            return;
+        }
+
+        sessionStorage.setItem("userRole", selectedRole);
+        sessionStorage.setItem("userName", name);
+
+        if (selectedRole === "Student") {
+
+            localStorage.setItem("learnEasyStudentName", name);
+
+            window.location.href = "student-dashboard.html";
 
         }
 
-        function continueLogin() {
-
-            if (selectedRole === "") {
-                document.getElementById("message").textContent =
-                    "Please select your role first!";
-                return;
-            }
-
-            sessionStorage.setItem("userRole", selectedRole);
-
-            if (selectedRole === "Student") {
-                window.location.href = "student-dashboard.html";
-            }
-
-            else if (selectedRole === "Teacher") {
-                window.location.href = "teacher-dashboard.html";
-            }
-
-            else if (selectedRole === "Parent") {
-                window.location.href = "parent-dashboard.html";
-            }
-
+        else if (selectedRole === "Teacher") {
+            window.location.href = "teacher-dashboard.html";
         }
 
-    </script>
+        else if (selectedRole === "Parent") {
+            window.location.href = "parent-dashboard.html";
+        }
+
+    }
+
+</script>
 
 </body>
 </html>

@@ -1,19 +1,25 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Progress</title>
+
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             background: #f0f4ff;
             text-align: center;
+            margin: 0;
         }
+
         h1 {
             background: #5b5bd6;
             color: white;
             padding: 25px;
         }
+
         .card {
             background: white;
             padding: 20px;
@@ -21,16 +27,20 @@
             width: 80%;
             max-width: 400px;
             border-radius: 12px;
+            box-shadow: 0 3px 12px #ddd;
         }
+
         .bar {
             background: #5b5bd6;
             height: 18px;
             border-radius: 10px;
         }
+
         .track {
             background: #ddd;
             border-radius: 10px;
         }
+
         button {
             background: #5b5bd6;
             color: white;
@@ -38,45 +48,87 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            margin: 15px;
+        }
+
+        .note {
+            color: #666;
+            font-size: 13px;
+            margin: 20px;
         }
     </style>
 </head>
+
 <body>
 
 <h1>📊 Student Progress</h1>
 
 <div class="card">
-    <h2>👩 Anu</h2>
+
+    <h2 id="studentName">Student</h2>
+
     <p>Alphabet Learning</p>
     <div class="track">
         <div class="bar" style="width:80%"></div>
     </div>
     <p>80% Completed</p>
-</div>
 
-<div class="card">
-    <h2>👦 Rahul</h2>
+    <hr>
+
     <p>Number Learning</p>
     <div class="track">
         <div class="bar" style="width:60%"></div>
     </div>
     <p>60% Completed</p>
-</div>
 
-<div class="card">
-    <h2>👧 Meera</h2>
+    <hr>
+
     <p>Colour Learning</p>
     <div class="track">
         <div class="bar" style="width:90%"></div>
     </div>
     <p>90% Completed</p>
+
 </div>
 
-<br>
+<p class="note">
+    These progress percentages are sample values.
+    They do not update automatically yet.
+</p>
 
-<button onclick="location.href='teacher-dashboard.html'">
-    Back to Teacher Dashboard
+<button onclick="goBack()">
+    Back to Dashboard
 </button>
+
+<script>
+
+    let name = localStorage.getItem("learnEasyStudentName");
+
+    if (name) {
+        document.getElementById("studentName").textContent =
+            "🎓 " + name;
+    } else {
+        document.getElementById("studentName").textContent =
+            "No student name saved yet";
+    }
+
+    function goBack() {
+
+        let role = sessionStorage.getItem("userRole");
+
+        if (role === "Teacher") {
+            window.location.href = "teacher-dashboard.html";
+        }
+        else if (role === "Parent") {
+            window.location.href = "parent-dashboard.html";
+        }
+        else {
+            window.location.href = "student-dashboard.html";
+        }
+
+    }
+
+</script>
 
 </body>
 </html>
