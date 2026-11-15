@@ -11,11 +11,34 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f3e5f5;
+            margin: 0;
         }
 
         h1 {
             color: #7b1fa2;
             padding: 20px;
+        }
+
+        .progress-section {
+            max-width: 500px;
+            margin: 15px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .progress-bar {
+            height: 22px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #7b1fa2;
+            transition: width 0.3s;
         }
 
         .shapes {
@@ -39,6 +62,20 @@
             font-size: 22px;
         }
 
+        button {
+            background: #7b1fa2;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background: #777;
+            cursor: default;
+        }
+
         a {
             display: inline-block;
             margin: 20px;
@@ -51,41 +88,101 @@
     <h1>🔺 Learn Shapes</h1>
     <p>Let's learn different shapes!</p>
 
-    <div class="shapes">
+    <div class="progress-section">
+        <h2>Your Shapes Progress</h2>
+        <p id="progressText">0 out of 6 shapes completed (0%)</p>
 
-        <div class="card">
-            <div class="shape">🔴</div>
-            <p>Circle</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
-
-        <div class="card">
-            <div class="shape">🟥</div>
-            <p>Square</p>
-        </div>
-
-        <div class="card">
-            <div class="shape">🔺</div>
-            <p>Triangle</p>
-        </div>
-
-        <div class="card">
-            <div class="shape">🟦</div>
-            <p>Rectangle</p>
-        </div>
-
-        <div class="card">
-            <div class="shape">⭐</div>
-            <p>Star</p>
-        </div>
-
-        <div class="card">
-            <div class="shape">❤️</div>
-            <p>Heart</p>
-        </div>
-
     </div>
 
-    <a href="index.html">⬅ Back to Home</a>
+    <div class="shapes" id="shapesContainer"></div>
+
+    <a href="student-dashboard.html">⬅ Back to Student Dashboard</a>
+
+<script>
+    const shapeList = [
+        ["🔴", "Circle"],
+        ["🟥", "Square"],
+        ["🔺", "Triangle"],
+        ["🟦", "Rectangle"],
+        ["⭐", "Star"],
+        ["❤️", "Heart"]
+    ];
+
+    const STORAGE_KEY = "learnEasyShapesCompleted";
+
+    let completedShapes = [];
+
+    try {
+        completedShapes = JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || [];
+    } catch (error) {
+        completedShapes = [];
+    }
+
+    const container = document.getElementById("shapesContainer");
+
+    function updateProgress() {
+        const count = completedShapes.length;
+        const percentage = Math.round(
+            (count / shapeList.length) * 100
+        );
+
+        document.getElementById("progressText").innerText =
+            `${count} out of ${shapeList.length} shapes completed (${percentage}%)`;
+
+        document.getElementById("progressFill").style.width =
+            percentage + "%";
+
+        shapeList.forEach(item => {
+            const button = document.getElementById(
+                "button-" + item[1]
+            );
+
+            if (completedShapes.includes(item[1])) {
+                button.innerText = "✓ Completed";
+                button.disabled = true;
+            }
+        });
+    }
+
+    function markCompleted(name) {
+        if (!completedShapes.includes(name)) {
+            completedShapes.push(name);
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(completedShapes)
+            );
+
+            updateProgress();
+        }
+    }
+
+    shapeList.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="shape">${item[0]}</div>
+            <p>${item[1]}</p>
+            <button id="button-${item[1]}">
+                Mark as Completed
+            </button>
+        `;
+
+        card.querySelector("button").addEventListener("click", () => {
+            markCompleted(item[1]);
+        });
+
+        container.appendChild(card);
+    });
+
+    updateProgress();
+</script>
 
 </body>
 </html>

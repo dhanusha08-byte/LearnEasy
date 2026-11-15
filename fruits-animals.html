@@ -60,8 +60,31 @@
             cursor: pointer;
         }
 
-        button:hover {
-            background: #388e3c;
+        button:disabled {
+            background: #777;
+            cursor: default;
+        }
+
+        .progress-section {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .progress-bar {
+            height: 22px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #4caf50;
+            transition: width 0.3s;
         }
 
         .back {
@@ -85,101 +108,155 @@
 
 <h2>🍓 Learn Fruits</h2>
 
-<div class="container">
-
-    <div class="card">
-        <div class="picture">🍎</div>
-        <p class="name">Apple</p>
-        <button onclick="speak('Apple')">🔊 Listen</button>
+<div class="progress-section">
+    <h3>Fruit Progress</h3>
+    <p id="fruitProgressText">0 out of 6 fruits completed (0%)</p>
+    <div class="progress-bar">
+        <div class="progress-fill" id="fruitProgressFill"></div>
     </div>
-
-    <div class="card">
-        <div class="picture">🍌</div>
-        <p class="name">Banana</p>
-        <button onclick="speak('Banana')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🥭</div>
-        <p class="name">Mango</p>
-        <button onclick="speak('Mango')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🍊</div>
-        <p class="name">Orange</p>
-        <button onclick="speak('Orange')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🍇</div>
-        <p class="name">Grapes</p>
-        <button onclick="speak('Grapes')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🍉</div>
-        <p class="name">Watermelon</p>
-        <button onclick="speak('Watermelon')">🔊 Listen</button>
-    </div>
-
 </div>
+
+<div class="container" id="fruitContainer"></div>
 
 <h2>🐶 Learn Animals</h2>
 
-<div class="container">
-
-    <div class="card">
-        <div class="picture">🐶</div>
-        <p class="name">Dog</p>
-        <button onclick="speak('Dog')">🔊 Listen</button>
+<div class="progress-section">
+    <h3>Animal Progress</h3>
+    <p id="animalProgressText">0 out of 6 animals completed (0%)</p>
+    <div class="progress-bar">
+        <div class="progress-fill" id="animalProgressFill"></div>
     </div>
-
-    <div class="card">
-        <div class="picture">🐱</div>
-        <p class="name">Cat</p>
-        <button onclick="speak('Cat')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🐘</div>
-        <p class="name">Elephant</p>
-        <button onclick="speak('Elephant')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🦁</div>
-        <p class="name">Lion</p>
-        <button onclick="speak('Lion')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🐵</div>
-        <p class="name">Monkey</p>
-        <button onclick="speak('Monkey')">🔊 Listen</button>
-    </div>
-
-    <div class="card">
-        <div class="picture">🐰</div>
-        <p class="name">Rabbit</p>
-        <button onclick="speak('Rabbit')">🔊 Listen</button>
-    </div>
-
 </div>
 
-<a href="index.html" class="back">⬅ Back to Home</a>
+<div class="container" id="animalContainer"></div>
+
+<a href="student-dashboard.html" class="back">
+    ⬅ Back to Student Dashboard
+</a>
 
 <script>
-    function speak(word) {
+    const fruits = [
+        ["🍎", "Apple"],
+        ["🍌", "Banana"],
+        ["🥭", "Mango"],
+        ["🍊", "Orange"],
+        ["🍇", "Grapes"],
+        ["🍉", "Watermelon"]
+    ];
+
+    const animals = [
+        ["🐶", "Dog"],
+        ["🐱", "Cat"],
+        ["🐘", "Elephant"],
+        ["🦁", "Lion"],
+        ["🐵", "Monkey"],
+        ["🐰", "Rabbit"]
+    ];
+
+    const fruitKey = "learnEasyFruitsCompleted";
+    const animalKey = "learnEasyAnimalsCompleted";
+
+    function loadCompleted(key) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    let completedFruits = loadCompleted(fruitKey);
+    let completedAnimals = loadCompleted(animalKey);
+
+    function updateProgress(type) {
+        const isFruit = type === "fruit";
+        const list = isFruit ? fruits : animals;
+        const completed = isFruit ? completedFruits : completedAnimals;
+
+        const count = completed.length;
+        const percentage = Math.round((count / list.length) * 100);
+
+        document.getElementById(type + "ProgressText").innerText =
+            `${count} out of ${list.length} ${isFruit ? "fruits" : "animals"} completed (${percentage}%)`;
+
+        document.getElementById(type + "ProgressFill").style.width =
+            percentage + "%";
+
+        list.forEach(item => {
+            const button = document.getElementById(
+                type + "-" + item[1]
+            );
+
+            if (completed.includes(item[1])) {
+                button.innerText = "✓ Completed";
+                button.disabled = true;
+            }
+        });
+    }
+
+    function speak(word, type) {
+        if (!("speechSynthesis" in window)) {
+            alert("Speech is not supported in this browser.");
+            return;
+        }
+
         window.speechSynthesis.cancel();
 
         const speech = new SpeechSynthesisUtterance(word);
         speech.lang = "en-US";
 
+        speech.onend = function() {
+            if (type === "fruit" && !completedFruits.includes(word)) {
+                completedFruits.push(word);
+                localStorage.setItem(fruitKey, JSON.stringify(completedFruits));
+                updateProgress("fruit");
+            }
+
+            if (type === "animal" && !completedAnimals.includes(word)) {
+                completedAnimals.push(word);
+                localStorage.setItem(animalKey, JSON.stringify(completedAnimals));
+                updateProgress("animal");
+            }
+        };
+
         window.speechSynthesis.speak(speech);
     }
+
+    function createCards(items, containerId, type) {
+        const container = document.getElementById(containerId);
+
+        items.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const picture = document.createElement("div");
+            picture.className = "picture";
+            picture.textContent = item[0];
+
+            const name = document.createElement("p");
+            name.className = "name";
+            name.textContent = item[1];
+
+            const button = document.createElement("button");
+            button.id = type + "-" + item[1];
+            button.textContent = "🔊 Listen";
+
+            button.addEventListener("click", function() {
+                speak(item[1], type);
+            });
+
+            card.appendChild(picture);
+            card.appendChild(name);
+            card.appendChild(button);
+
+            container.appendChild(card);
+        });
+
+        updateProgress(type);
+    }
+
+    createCards(fruits, "fruitContainer", "fruit");
+    createCards(animals, "animalContainer", "animal");
 </script>
 
 </body>
 </html>
-

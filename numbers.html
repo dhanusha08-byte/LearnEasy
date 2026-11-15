@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Numbers - LearnEasy</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .progress-box {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .progress-track {
+            height: 18px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #22a06b;
+            transition: width 0.3s;
+        }
+
+        .completed-section {
+            color: #16834a;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
+
 <body>
 
     <h1>🔢 Let's Learn Numbers!</h1>
     <p>Learn numbers, count objects and play a fun game!</p>
 
+    <div class="progress-box">
+        <h2>📊 Your Number Progress</h2>
+        <p id="progressText">0 of 4 activities completed (0%)</p>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
     <h2>1. Learn Numbers</h2>
+    <p>Listen to all numbers from 1 to 10!</p>
+
     <div class="number-container">
         <button onclick="speak('One')">1️⃣ One 🔊</button>
         <button onclick="speak('Two')">2️⃣ Two 🔊</button>
@@ -25,9 +71,14 @@
         <button onclick="speak('Ten')">🔟 Ten 🔊</button>
     </div>
 
+    <button id="learnDone" onclick="completeActivity('learn')" disabled>
+        Mark Numbers as Completed
+    </button>
+
     <h2>2. Count the Objects</h2>
     <p>🍎 🍎 🍎</p>
     <p>How many apples are there?</p>
+
     <button onclick="checkCount(3)">3</button>
     <button onclick="checkCount(2)">2</button>
     <button onclick="checkCount(4)">4</button>
@@ -35,49 +86,122 @@
 
     <h2>3. Number Quiz</h2>
     <p>Which number comes after 4?</p>
+
     <button onclick="checkQuiz(5)">5</button>
     <button onclick="checkQuiz(6)">6</button>
     <button onclick="checkQuiz(3)">3</button>
     <p id="quiz-result"></p>
 
-<h2>4. Match the Number</h2>
-<p>Which number matches FIVE?</p>
+    <h2>4. Match the Number</h2>
+    <p>Which number matches FIVE?</p>
 
-<button onclick="matchNumber(3)">3</button>
-<button onclick="matchNumber(5)">5</button>
-<button onclick="matchNumber(7)">7</button>
-
-<p id="match-result"></p>
+    <button onclick="matchNumber(3)">3</button>
+    <button onclick="matchNumber(5)">5</button>
+    <button onclick="matchNumber(7)">7</button>
+    <p id="match-result"></p>
 
     <br>
-    <a href="index.html">⬅ Back to Home</a>
+    <button onclick="location.href='student-dashboard.html'">
+        ⬅ Back to Student Dashboard
+    </button>
 
     <script>
+        const storageKey = "learnEasyNumbersCompleted";
+
+        let completed = JSON.parse(
+            localStorage.getItem(storageKey) || "[]"
+        );
+
+        function updateProgress() {
+            const percentage = Math.round(
+                (completed.length / 4) * 100
+            );
+
+            document.getElementById("progressText").textContent =
+                completed.length + " of 4 activities completed (" +
+                percentage + "%)";
+
+            document.getElementById("progressFill").style.width =
+                percentage + "%";
+
+            ["learn", "count", "quiz", "match"].forEach(id => {
+                const button = document.getElementById(
+                    id === "learn" ? "learnDone" : id + "-done"
+                );
+
+                if (button) {
+                    button.disabled = completed.includes(id);
+                    if (completed.includes(id)) {
+                        button.textContent = "✓ Completed";
+                    }
+                }
+            });
+        }
+
+        function completeActivity(id) {
+            if (!completed.includes(id)) {
+                completed.push(id);
+                localStorage.setItem(
+                    storageKey,
+                    JSON.stringify(completed)
+                );
+            }
+
+            updateProgress();
+        }
+
+        let spokenNumbers = new Set();
+
         function speak(word) {
             const speech = new SpeechSynthesisUtterance(word);
             speech.lang = "en-US";
+            speechSynthesis.cancel();
             speechSynthesis.speak(speech);
+
+            spokenNumbers.add(word);
+
+            if (spokenNumbers.size === 10) {
+                document.getElementById("learnDone").disabled = false;
+            }
         }
 
         function checkCount(answer) {
-            document.getElementById("count-result").textContent =
-                answer === 3 ? "🎉 Excellent! There are 3 apples!" :
-                "Try again! Count the apples carefully.";
+            if (answer === 3) {
+                document.getElementById("count-result").textContent =
+                    "🎉 Excellent! There are 3 apples!";
+
+                completeActivity("count");
+            } else {
+                document.getElementById("count-result").textContent =
+                    "Try again! Count the apples carefully.";
+            }
         }
 
         function checkQuiz(answer) {
-            document.getElementById("quiz-result").textContent =
-                answer === 5 ? "🌟 Correct! Great job!" :
-                "Try again! You can do it!";
+            if (answer === 5) {
+                document.getElementById("quiz-result").textContent =
+                    "🌟 Correct! Great job!";
+
+                completeActivity("quiz");
+            } else {
+                document.getElementById("quiz-result").textContent =
+                    "Try again! You can do it!";
+            }
         }
 
-function matchNumber(answer) {
-    document.getElementById("match-result").textContent =
-        answer === 5
-        ? "🌟 Amazing! You matched FIVE correctly!"
-        : "😊 Try again! Look carefully.";
-}
+        function matchNumber(answer) {
+            if (answer === 5) {
+                document.getElementById("match-result").textContent =
+                    "🌟 Amazing! You matched FIVE correctly!";
 
+                completeActivity("match");
+            } else {
+                document.getElementById("match-result").textContent =
+                    "😊 Try again! Look carefully.";
+            }
+        }
+
+        updateProgress();
     </script>
 
 </body>

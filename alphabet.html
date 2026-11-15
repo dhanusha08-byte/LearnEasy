@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +50,11 @@
             font-size: 16px;
         }
 
+        .letter.completed {
+            border: 3px solid #22a06b;
+            background: #eafff2;
+        }
+
         button {
             background: #4a90e2;
             color: white;
@@ -57,6 +63,29 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
+            margin: 5px;
+        }
+
+        .progress-box {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .progress-track {
+            background: #ddd;
+            height: 18px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #22a06b;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
         }
 
         @media(max-width: 450px) {
@@ -75,15 +104,31 @@
 </header>
 
 <div class="container">
+
+    <div class="progress-box">
+        <h3>Alphabet Progress</h3>
+        <p id="progressText">0 of 26 letters completed (0%)</p>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
     <h2>Click on a letter to learn!</h2>
 
     <div class="letters" id="letters"></div>
 
     <h2 id="result">Choose a letter!</h2>
 
-    <button onclick="location.href='index.html'">
-        🏠 Back to Home
+    <button id="completeButton" onclick="completeLetter()" disabled>
+        Mark Letter as Completed
     </button>
+
+    <br>
+
+    <button onclick="location.href='student-dashboard.html'">
+        🏠 Back to Dashboard
+    </button>
+
 </div>
 
 <script>
@@ -103,32 +148,79 @@
         ["Y", "Yak"], ["Z", "Zebra"]
     ];
 
+    const storageKey = "learnEasyAlphabetCompleted";
+    let completed = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    let selectedLetter = null;
+
     const container = document.getElementById("letters");
 
-    alphabet.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "letter";
+    function updateProgress() {
+        const count = completed.length;
+        const percentage = Math.round((count / 26) * 100);
 
-        card.innerHTML = `
-            <h2>${item[0]}</h2>
-            <p>${item[1]}</p>
-            <button>🔊 Listen</button>
-        `;
+        document.getElementById("progressText").innerText =
+            `${count} of 26 letters completed (${percentage}%)`;
 
-        card.addEventListener("click", () => {
-            document.getElementById("result").innerText =
-                item[0] + " for " + item[1];
+        document.getElementById("progressFill").style.width =
+            percentage + "%";
+    }
 
-            const speech = new SpeechSynthesisUtterance(
-                item[0] + " for " + item[1]
-            );
+    function completeLetter() {
+        if (!selectedLetter) return;
 
-            speechSynthesis.cancel();
-            speechSynthesis.speak(speech);
+        if (!completed.includes(selectedLetter)) {
+            completed.push(selectedLetter);
+            localStorage.setItem(storageKey, JSON.stringify(completed));
+        }
+
+        renderLetters();
+        updateProgress();
+
+        document.getElementById("completeButton").disabled = true;
+        document.getElementById("result").innerText =
+            selectedLetter + " completed! Great job! 🎉";
+    }
+
+    function renderLetters() {
+        container.innerHTML = "";
+
+        alphabet.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "letter";
+
+            if (completed.includes(item[0])) {
+                card.classList.add("completed");
+            }
+
+            card.innerHTML = `
+                <h2>${item[0]}</h2>
+                <p>${item[1]}</p>
+                <button type="button">🔊 Listen</button>
+            `;
+
+            card.addEventListener("click", () => {
+                selectedLetter = item[0];
+
+                document.getElementById("result").innerText =
+                    item[0] + " for " + item[1];
+
+                const speech = new SpeechSynthesisUtterance(
+                    item[0] + " for " + item[1]
+                );
+
+                speechSynthesis.cancel();
+                speechSynthesis.speak(speech);
+
+                document.getElementById("completeButton").disabled =
+                    completed.includes(item[0]);
+            });
+
+            container.appendChild(card);
         });
+    }
 
-        container.appendChild(card);
-    });
+    renderLetters();
+    updateProgress();
 </script>
 
 </body>

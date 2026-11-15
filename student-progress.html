@@ -4,9 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Progress</title>
+    <title>LearnEasy - Student Progress</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f0f4ff;
@@ -18,27 +22,61 @@
             background: #5b5bd6;
             color: white;
             padding: 25px;
+            margin-top: 0;
+        }
+
+        .summary {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ddd;
         }
 
         .card {
             background: white;
             padding: 20px;
-            margin: 20px auto;
-            width: 80%;
-            max-width: 400px;
+            margin: 18px auto;
+            width: 90%;
+            max-width: 500px;
             border-radius: 12px;
             box-shadow: 0 3px 12px #ddd;
         }
 
-        .bar {
-            background: #5b5bd6;
-            height: 18px;
-            border-radius: 10px;
-        }
-
         .track {
             background: #ddd;
+            height: 20px;
             border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: #5b5bd6;
+            border-radius: 10px;
+            transition: width 0.4s;
+        }
+
+        .percentage {
+            font-weight: bold;
+            color: #5b5bd6;
+        }
+
+        .overall-bar {
+            background: #ddd;
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .overall-fill {
+            background: #20a464;
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s;
         }
 
         button {
@@ -49,6 +87,11 @@
             border-radius: 8px;
             cursor: pointer;
             margin: 15px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #4141b5;
         }
 
         .note {
@@ -63,71 +106,181 @@
 
 <h1>📊 Student Progress</h1>
 
-<div class="card">
+<div class="summary">
+    <h2 id="studentName">🎓 Student</h2>
 
-    <h2 id="studentName">Student</h2>
+    <h3>Overall Learning Progress</h3>
 
-    <p>Alphabet Learning</p>
-    <div class="track">
-        <div class="bar" style="width:80%"></div>
+    <h2 id="overallPercentage">0%</h2>
+
+    <div class="overall-bar">
+        <div class="overall-fill" id="overallFill"></div>
     </div>
-    <p>80% Completed</p>
 
-    <hr>
-
-    <p>Number Learning</p>
-    <div class="track">
-        <div class="bar" style="width:60%"></div>
-    </div>
-    <p>60% Completed</p>
-
-    <hr>
-
-    <p>Colour Learning</p>
-    <div class="track">
-        <div class="bar" style="width:90%"></div>
-    </div>
-    <p>90% Completed</p>
-
+    <p id="overallCount">0 out of 56 learning items completed</p>
 </div>
 
+<div id="progressContainer"></div>
+
 <p class="note">
-    These progress percentages are sample values.
-    They do not update automatically yet.
+    Progress updates automatically when students complete
+    their learning activities.
 </p>
 
-<button onclick="goBack()">
-    Back to Dashboard
-</button>
+<button onclick="goBack()">⬅ Back to Dashboard</button>
 
 <script>
+    const progressSections = [
+        {
+            name: "Alphabet Learning",
+            key: "learnEasyAlphabetCompleted",
+            items: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+        },
+        {
+            name: "Number Learning",
+            key: "learnEasyNumbersCompleted",
+            items: ["learn", "count", "quiz", "match"]
+        },
+        {
+            name: "Colour Learning",
+            key: "learnEasyColoursCompleted",
+            items: [
+                "Red", "Blue", "Green", "Yellow", "Orange",
+                "Pink", "Purple", "Black", "White"
+            ]
+        },
+        {
+            name: "Shapes Learning",
+            key: "learnEasyShapesCompleted",
+            items: [
+                "Circle", "Square", "Triangle",
+                "Rectangle", "Star", "Heart"
+            ]
+        },
+        {
+            name: "Fruit Learning",
+            key: "learnEasyFruitsCompleted",
+            items: [
+                "Apple", "Banana", "Mango",
+                "Orange", "Grapes", "Watermelon"
+            ]
+        },
+        {
+            name: "Animal Learning",
+            key: "learnEasyAnimalsCompleted",
+            items: [
+                "Dog", "Cat", "Elephant",
+                "Lion", "Monkey", "Rabbit"
+            ]
+        }
+    ];
 
-    let name = localStorage.getItem("learnEasyStudentName");
+    function getCompletedItems(key, allowedItems) {
+        try {
+            const saved = JSON.parse(localStorage.getItem(key)) || [];
 
-    if (name) {
-        document.getElementById("studentName").textContent =
-            "🎓 " + name;
-    } else {
-        document.getElementById("studentName").textContent =
-            "No student name saved yet";
+            if (!Array.isArray(saved)) {
+                return [];
+            }
+
+            return [...new Set(saved)].filter(
+                item => allowedItems.includes(item)
+            );
+        } catch (error) {
+            return [];
+        }
     }
 
-    function goBack() {
+    function updateProgress() {
+        const container = document.getElementById("progressContainer");
 
-        let role = sessionStorage.getItem("userRole");
+        container.innerHTML = "";
+
+        let totalCompleted = 0;
+        let totalItems = 0;
+
+        progressSections.forEach((section, index) => {
+            const completed = getCompletedItems(
+                section.key,
+                section.items
+            );
+
+            const count = completed.length;
+            const total = section.items.length;
+
+            const percentage = Math.round((count / total) * 100);
+
+            totalCompleted += count;
+            totalItems += total;
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const heading = document.createElement("h2");
+            heading.textContent = section.name;
+
+            const countText = document.createElement("p");
+            countText.textContent =
+                `${count} out of ${total} completed`;
+
+            const track = document.createElement("div");
+            track.className = "track";
+
+            const bar = document.createElement("div");
+            bar.className = "bar";
+            bar.style.width = percentage + "%";
+
+            track.appendChild(bar);
+
+            const percentageText = document.createElement("p");
+            percentageText.className = "percentage";
+            percentageText.textContent = percentage + "% Completed";
+
+            card.appendChild(heading);
+            card.appendChild(countText);
+            card.appendChild(track);
+            card.appendChild(percentageText);
+
+            container.appendChild(card);
+        });
+
+        const overall = Math.round(
+            (totalCompleted / totalItems) * 100
+        );
+
+        document.getElementById("overallPercentage").textContent =
+            overall + "%";
+
+        document.getElementById("overallFill").style.width =
+            overall + "%";
+
+        document.getElementById("overallCount").textContent =
+            `${totalCompleted} out of ${totalItems} learning items completed`;
+    }
+
+    // Display the saved student name
+    const name = localStorage.getItem("learnEasyStudentName");
+
+    document.getElementById("studentName").textContent =
+        name ? "🎓 " + name : "🎓 Student";
+
+    function goBack() {
+        const role = sessionStorage.getItem("userRole");
 
         if (role === "Teacher") {
             window.location.href = "teacher-dashboard.html";
-        }
-        else if (role === "Parent") {
+        } else if (role === "Parent") {
             window.location.href = "parent-dashboard.html";
-        }
-        else {
+        } else {
             window.location.href = "student-dashboard.html";
         }
-
     }
 
+    // Update progress when the page opens
+    updateProgress();
+
+    // Refresh if progress changes in another browser tab
+    window.addEventListener("storage", updateProgress);
 </script>
 
 </body>
