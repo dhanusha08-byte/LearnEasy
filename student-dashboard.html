@@ -2,142 +2,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LearnEasy - Student Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnEasy - Student Dashboard</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #F7F8FC;
+    color: #39445A;
+    text-align: center;
+}
+
+/* Header */
+
+header {
+    background: #E5E1F5;
+    color: #40395E;
+    padding: 25px 15px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+    color: #40395E;
+}
+
+.welcome {
+    font-size: 18px;
+    color: #51496C;
+}
+
+/* Dashboard Layout */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 950px;
+    margin: auto;
+}
+
+/* Learning Cards */
+
+.card {
+    background: #FFFFFF;
+    padding: 25px 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(70, 70, 100, 0.08);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    color: #62558C;
+}
+
+.card p {
+    color: #626B7C;
+}
+
+/* Learning Buttons */
+
+.card a {
+    display: inline-block;
+    background: #C9D9F2;
+    color: #294568;
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.card a:hover {
+    background: #AFC7E8;
+}
+
+/* Logout Button */
+
+.logout {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    background: #F0D5D8;
+    color: #753E49;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.logout:hover {
+    background: #E9C1C7;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #eaf3ff;
-      text-align: center;
+        padding: 12px;
     }
 
     header {
-      background: #2563eb;
-      color: white;
-      padding: 25px 15px;
-      border-radius: 15px;
-      margin-bottom: 25px;
-    }
-
-    header h1 {
-      margin: 0 0 10px;
-    }
-
-    .welcome {
-      font-size: 18px;
+        padding: 20px 10px;
     }
 
     .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      max-width: 950px;
-      margin: auto;
+        grid-template-columns: 1fr;
     }
+}
 
-    .card {
-      background: white;
-      padding: 25px 15px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h2 {
-      color: #2563eb;
-    }
-
-    .card p {
-      color: #555;
-    }
-
-    .card a {
-      display: inline-block;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 11px 20px;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-
-    .card a:hover {
-      background: #1d4ed8;
-    }
-
-    .logout {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 25px;
-      background: #dc2626;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <header>
+<header>
     <h1>🎓 LearnEasy Student Dashboard</h1>
+
     <div class="welcome">
-      Welcome, <span id="studentName">Student</span>!
+        Welcome, <span id="studentName">Student</span>!
     </div>
+
     <p>What would you like to learn today?</p>
-  </header>
+</header>
 
-  <div class="dashboard">
+<div class="dashboard">
 
     <div class="card">
-      <h2>🔤 Alphabets</h2>
-      <p>Learn A to Z in a fun way!</p>
-      <a href="alphabet.html">Start Learning</a>
+        <h2>🔤 Alphabets</h2>
+        <p>Learn A to Z in a fun way!</p>
+        <a href="alphabet.html">Start Learning</a>
     </div>
 
     <div class="card">
-      <h2>🔢 Numbers</h2>
-      <p>Learn numbers and counting!</p>
-      <a href="numbers.html">Start Learning</a>
+        <h2>🔢 Numbers</h2>
+        <p>Learn numbers and counting!</p>
+        <a href="numbers.html">Start Learning</a>
     </div>
 
     <div class="card">
-      <h2>🎨 Colours</h2>
-      <p>Discover beautiful colours!</p>
-      <a href="colours.html">Start Learning</a>
+        <h2>🎨 Colours</h2>
+        <p>Discover beautiful colours!</p>
+        <a href="colours.html">Start Learning</a>
     </div>
 
     <div class="card">
-      <h2>🎯 Activities</h2>
-      <p>Enjoy fun learning activities!</p>
-      <a href="activities.html">Start Activities</a>
+        <h2>🎯 Activities</h2>
+        <p>Enjoy fun learning activities!</p>
+        <a href="activities.html">Start Activities</a>
     </div>
 
-  </div>
+</div>
 
-  <a class="logout" href="login.html" onclick="sessionStorage.clear()">
+<a class="logout" href="login.html" onclick="sessionStorage.clear()">
     Logout
-  </a>
+</a>
 
-  <script>
-    const name = sessionStorage.getItem("userName");
+<script>
 
-    if (name) {
-      document.getElementById("studentName").textContent = name;
-    }
-  </script>
+const name = sessionStorage.getItem("userName");
+
+if (name) {
+    document.getElementById("studentName").textContent = name;
+}
+
+</script>
 
 </body>
 </html>
