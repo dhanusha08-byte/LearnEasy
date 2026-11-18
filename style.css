@@ -1,133 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearnEasy - Learning Made Easy</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+/* LearnEasy - Soft and Eye-Friendly Theme */
 
-<body>
-
-    <header>
-        <div class="logo">🌸 LearnEasy</div>
-
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-        </nav>
-    </header>
-
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Welcome to LearnEasy!</h1>
-
-            <p>
-                Learning is fun when we learn together.
-                Explore, discover and grow at your own pace!
-            </p>
-
-            <button onclick="startLearning()">
-                Let's Start Learning!
-            </button>
-        </div>
-
-        <div class="hero-image">
-            📚 🌈 🎨
-        </div>
-    </section>
-
-    <section class="about" id="about">
-        <h2>About LearnEasy</h2>
-
-        <p>
-            LearnEasy is a simple and interactive learning
-            platform designed to support students with
-            intellectual disabilities through visual,
-            audio and activity-based learning.
-        </p>
-    </section>
-
-    <section class="features" id="features">
-        <h2>What Can You Learn?</h2>
-
-        <div class="cards">
-            <div class="card">
-                <span>🔤</span>
-                <h3>Alphabets</h3>
-                <p>Learn letters in a fun way.</p>
-            </div>
-
-            <div class="card">
-                <span>🔢</span>
-                <h3>Numbers</h3>
-                <p>Explore numbers and counting.</p>
-            </div>
-
-            <div class="card">
-                <span>🎨</span>
-                <h3>Colours</h3>
-                <p>Discover different colours.</p>
-            </div>
-
-            <div class="card">
-                <span>🧩</span>
-                <h3>Activities</h3>
-                <p>Learn through simple activities.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 LearnEasy | Learning for Everyone 💗</p>
-    </footer>
-
-    <script src="script.js"></script>
-
-</body>
-</html>
-/* Numbers page styling */
 body {
+    background-color: #F5F8FD;
+    color: #34445A;
     font-family: Arial, sans-serif;
-    background: #fff0f5;
-    color: #444;
-    text-align: center;
-    padding: 20px;
 }
 
-h1 {
-    color: #d63384;
+/* Dashboard Header */
+
+header {
+    background: #DCE8F8;
+    color: #284B75;
+    padding: 30px;
 }
 
-h2 {
-    color: #8e44ad;
-    margin-top: 30px;
+/* Learning Cards */
+
+.card {
+    background-color: #FFFFFF;
+    border-radius: 18px;
+    box-shadow: 0 3px 12px rgba(80, 100, 130, 0.10);
+    color: #34445A;
 }
 
-.number-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-}
+/* Learning Buttons */
 
 button {
-    background: #ffd6e7;
-    color: #663399;
-    border: 2px solid #f3a6c8;
-    border-radius: 12px;
-    padding: 12px 18px;
-    margin: 5px;
-    font-size: 17px;
+    background-color: #78A9DC;
+    color: #173B60;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 22px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-    background: #e6ccff;
+    background-color: #5E91C7;
+    color: #FFFFFF;
 }
 
-a {
-    color: #d63384;
-    font-weight: bold;
+/* Logout Button */
+
+.logout {
+    background-color: #E7A0A0;
+    color: #552D2D;
+}
+
+.logout:hover {
+    background-color: #D98282;
+    color: #FFFFFF;
 }
