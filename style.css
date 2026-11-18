@@ -1,53 +1,128 @@
-/* LearnEasy - Soft and Eye-Friendly Theme */
+/* =================================
+   LearnEasy - Soft Pastel Theme
+   Eye-Friendly Dashboard Design
+================================= */
+
+/* Main Website Background */
 
 body {
-    background-color: #F5F8FD;
-    color: #34445A;
+    background-color: #F5F8FD !important;
+    color: #34445A !important;
     font-family: Arial, sans-serif;
+    margin: 0;
 }
 
 /* Dashboard Header */
 
 header {
-    background: #DCE8F8;
-    color: #284B75;
+    background: #DCE8F8 !important;
+    background-image: none !important;
+    color: #284B75 !important;
     padding: 30px;
+    text-align: center;
+}
+
+/* Header Text */
+
+header h1 {
+    color: #284B75 !important;
+}
+
+header p {
+    color: #526A85 !important;
 }
 
 /* Learning Cards */
 
-.card {
-    background-color: #FFFFFF;
-    border-radius: 18px;
-    box-shadow: 0 3px 12px rgba(80, 100, 130, 0.10);
-    color: #34445A;
+.card,
+.learning-card,
+.dashboard-card {
+    background-color: #FFFFFF !important;
+    color: #34445A !important;
+    border-radius: 18px !important;
+    box-shadow: 0 3px 12px rgba(80, 100, 130, 0.10) !important;
+    padding: 25px;
 }
 
-/* Learning Buttons */
+/* Card Headings */
 
-button {
-    background-color: #78A9DC;
-    color: #173B60;
-    border: none;
-    border-radius: 10px;
+.card h2,
+.learning-card h2,
+.dashboard-card h2 {
+    color: #4779AD !important;
+}
+
+/* Card Description */
+
+.card p,
+.learning-card p,
+.dashboard-card p {
+    color: #66758A !important;
+}
+
+/* All Buttons */
+
+button,
+.btn {
+    background-color: #78A9DC !important;
+    color: #173B60 !important;
+    border: none !important;
+    border-radius: 10px !important;
     padding: 12px 22px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #5E91C7;
-    color: #FFFFFF;
+/* Button Hover */
+
+button:hover,
+.btn:hover {
+    background-color: #5E91C7 !important;
+    color: #FFFFFF !important;
 }
 
 /* Logout Button */
 
-.logout {
-    background-color: #E7A0A0;
-    color: #552D2D;
+.logout,
+.logout-btn {
+    background-color: #E7A0A0 !important;
+    color: #552D2D !important;
 }
 
-.logout:hover {
-    background-color: #D98282;
-    color: #FFFFFF;
+.logout:hover,
+.logout-btn:hover {
+    background-color: #D98282 !important;
+    color: #FFFFFF !important;
+}
+
+/* Links */
+
+a {
+    color: #4779AD;
+    text-decoration: none;
+}
+
+/* Learning Progress */
+
+.progress-bar {
+    background-color: #E5EAF1 !important;
+}
+
+.progress-fill {
+    background-color: #82C9A5 !important;
+}
+
+/* Responsive Design */
+
+@media (max-width: 600px) {
+    header {
+        padding: 20px;
+    }
+
+    .card,
+    .learning-card,
+    .dashboard-card {
+        padding: 18px;
+        margin: 12px;
+    }
 }
