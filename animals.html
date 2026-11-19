@@ -2,64 +2,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LearnEasy - Animals</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #effaf0;
-      text-align: center;
-      padding: 20px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LearnEasy - Animal Sounds</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #effaf0;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    color: #27834a;
+    font-size: 32px;
+}
+
+.subtitle {
+    color: #555;
+    font-size: 18px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 22px;
+    max-width: 850px;
+    margin: 35px auto;
+}
+
+.animal {
+    background: white;
+    padding: 25px 15px;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px #0002;
+    transition: transform 0.3s;
+}
+
+.animal:hover {
+    transform: translateY(-5px);
+}
+
+.emoji {
+    font-size: 65px;
+    cursor: pointer;
+}
+
+.animal h2 {
+    color: #27834a;
+}
+
+.sound-text {
+    color: #666;
+    font-size: 17px;
+    min-height: 25px;
+}
+
+button {
+    background: #27834a;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #176b36;
+}
+
+button:focus-visible {
+    outline: 3px solid #f2bd52;
+    outline-offset: 3px;
+}
+
+#message {
+    color: #27834a;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 30px;
+}
+
+.back-button {
+    background: #56758c;
+    margin: 25px;
+}
+
+.back-button:hover {
+    background: #38566c;
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 25px;
     }
 
-    h1 { color: #27834a; }
-
     .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      max-width: 750px;
-      margin: 30px auto;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .animal {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 3px 10px #0002;
+        padding: 18px 8px;
     }
-
-    .emoji { font-size: 55px; }
-
-    button {
-      background: #27834a;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-  <h1>🐾 Learn About Animals</h1>
-  <p>Let's discover some amazing animals!</p>
+<h1>🐾 Learn About Animals</h1>
 
-  <div class="container">
-    <div class="animal"><div class="emoji">🦁</div><h2>Lion</h2></div>
-    <div class="animal"><div class="emoji">🐘</div><h2>Elephant</h2></div>
-    <div class="animal"><div class="emoji">🐒</div><h2>Monkey</h2></div>
-    <div class="animal"><div class="emoji">🐰</div><h2>Rabbit</h2></div>
-    <div class="animal"><div class="emoji">🐶</div><h2>Dog</h2></div>
-    <div class="animal"><div class="emoji">🐱</div><h2>Cat</h2></div>
-  </div>
+<p class="subtitle">
+    Discover animals and listen to the sounds they make!
+</p>
 
-  <button onclick="location.href='activities.html'">
-    Back to Activities
-  </button>
+<p>Click an animal to hear its sound! 🔊</p>
+
+<div class="container">
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('lion')">🦁</div>
+        <h2>Lion</h2>
+        <p class="sound-text">Roar! Roar!</p>
+        <button onclick="playSound('lion')">🔊 Play Sound</button>
+    </div>
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('elephant')">🐘</div>
+        <h2>Elephant</h2>
+        <p class="sound-text">Trumpet! Trumpet!</p>
+        <button onclick="playSound('elephant')">🔊 Play Sound</button>
+    </div>
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('monkey')">🐒</div>
+        <h2>Monkey</h2>
+        <p class="sound-text">Ooh! Ooh! Ah! Ah!</p>
+        <button onclick="playSound('monkey')">🔊 Play Sound</button>
+    </div>
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('rabbit')">🐰</div>
+        <h2>Rabbit</h2>
+        <p class="sound-text">Squeak! Squeak!</p>
+        <button onclick="playSound('rabbit')">🔊 Play Sound</button>
+    </div>
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('dog')">🐶</div>
+        <h2>Dog</h2>
+        <p class="sound-text">Woof! Woof!</p>
+        <button onclick="playSound('dog')">🔊 Play Sound</button>
+    </div>
+
+    <div class="animal">
+        <div class="emoji" onclick="playSound('cat')">🐱</div>
+        <h2>Cat</h2>
+        <p class="sound-text">Meow! Meow!</p>
+        <button onclick="playSound('cat')">🔊 Play Sound</button>
+    </div>
+
+</div>
+
+<p id="message">🌟 Choose an animal to hear its sound!</p>
+
+<button class="back-button"
+onclick="location.href='activities.html'">
+⬅ Back to Activities
+</button>
+
+<script>
+
+// Animal sound words
+
+const animalSounds = {
+    lion: "Roar! Roar!",
+    elephant: "Pawoo! Trumpet!",
+    monkey: "Ooh! Ooh! Ah! Ah!",
+    rabbit: "Squeak! Squeak!",
+    dog: "Woof! Woof!",
+    cat: "Meow! Meow!"
+};
+
+// Play animal sound
+
+function playSound(animal) {
+
+    if (!("speechSynthesis" in window)) {
+        document.getElementById("message").textContent =
+            "Sorry! Your browser does not support sound.";
+        return;
+    }
+
+    // Stop previous sound
+
+    window.speechSynthesis.cancel();
+
+    const sound = new SpeechSynthesisUtterance(
+        animalSounds[animal]
+    );
+
+    sound.lang = "en-US";
+    sound.rate = 0.8;
+    sound.pitch = animal === "cat" ? 1.5 : 1;
+
+    window.speechSynthesis.speak(sound);
+
+    document.getElementById("message").textContent =
+        "🔊 Listen! The " + animal + " is making a sound!";
+}
+
+</script>
 
 </body>
 </html>
