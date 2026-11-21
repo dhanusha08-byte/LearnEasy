@@ -7,6 +7,10 @@
   <title>LearnEasy - Login</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #eaf3ff;
@@ -15,55 +19,110 @@
       align-items: center;
       min-height: 100vh;
       margin: 0;
+      padding: 30px;
     }
 
+    /* Main Login Box */
+
     .login-box {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      width: 320px;
-      max-width: 85%;
+      background: #ffffff;
+      padding: 45px 40px;
+      border: 2px solid #B8D2EF;
+      border-radius: 20px;
+      width: 480px;
+      max-width: 95%;
+      margin: 40px auto;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(80, 120, 170, 0.15);
     }
 
     h1 {
       color: #2563eb;
+      font-size: 38px;
+      margin-bottom: 25px;
     }
 
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      box-sizing: border-box;
-      border-radius: 8px;
-      font-size: 16px;
+    h3 {
+      color: #34445A;
+      margin-bottom: 25px;
     }
+
+    label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: #34445A;
+    }
+
+    /* Input and Dropdown */
 
     input, select {
-      border: 1px solid #ccc;
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      border: 1px solid #b8c8dc;
+      border-radius: 10px;
+      font-size: 17px;
+      background: #f8fbff;
     }
 
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
+    select {
+      margin-top: 15px;
+      margin-bottom: 28px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #1d4ed8;
+    input {
+      margin-bottom: 20px;
     }
+
+    /* Continue Button */
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 12px;
+      background: #78A9DC;
+      color: #173B60;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #5E91C7;
+      color: white;
+    }
+
+    /* Mobile Responsive */
+
+    @media (max-width: 600px) {
+      .login-box {
+        width: 100%;
+        padding: 30px 22px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
   <div class="login-box">
+
     <h1>LearnEasy</h1>
+
     <h3>Welcome! Please Login</h3>
 
     <label for="role">Select Your Role</label>
+
     <select id="role" onchange="toggleNameField()">
       <option value="">Choose your role</option>
       <option value="Student">Student</option>
@@ -80,10 +139,13 @@
     </div>
 
     <button onclick="login()">Continue</button>
+
   </div>
 
   <script>
+
     function toggleNameField() {
+
       const role = document.getElementById("role").value;
       const nameSection = document.getElementById("nameSection");
       const studentName = document.getElementById("studentName");
@@ -94,9 +156,11 @@
         nameSection.style.display = "none";
         studentName.value = "";
       }
+
     }
 
     function login() {
+
       const role = document.getElementById("role").value;
       const name = document.getElementById("studentName").value.trim();
 
@@ -113,17 +177,24 @@
       sessionStorage.setItem("userRole", role);
 
       if (role === "Student") {
+
         sessionStorage.setItem("userName", name);
         localStorage.setItem("learnEasyStudentName", name);
+
         window.location.href = "student-dashboard.html";
-      } 
-      else if (role === "Teacher") {
+
+      } else if (role === "Teacher") {
+
         window.location.href = "teacher-dashboard.html";
-      } 
-      else if (role === "Parent") {
+
+      } else if (role === "Parent") {
+
         window.location.href = "parent-dashboard.html";
+
       }
+
     }
+
   </script>
 
 </body>
