@@ -2,207 +2,537 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Numbers - LearnEasy</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnEasy - Number Learning</title>
 
-    <style>
-        .progress-box {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        .progress-track {
-            height: 18px;
-            background: #ddd;
-            border-radius: 20px;
-            overflow: hidden;
-        }
+body {
+    margin: 0;
+    padding: 25px;
+    font-family: Arial, sans-serif;
+    background: #F2F7FC;
+    color: #34445A;
+    text-align: center;
+    font-size: 20px;
+}
 
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #22a06b;
-            transition: width 0.3s;
-        }
+header {
+    background: #DCEBFA;
+    padding: 35px 20px;
+    border-radius: 20px;
+    max-width: 1100px;
+    margin: 0 auto 30px;
+}
 
-        .completed-section {
-            color: #16834a;
-            font-weight: bold;
-        }
+header h1 {
+    color: #376C9E;
+    font-size: 40px;
+}
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-    </style>
+header p {
+    font-size: 23px;
+}
+
+h2 {
+    color: #4779AD;
+    font-size: 32px;
+}
+
+h3 {
+    font-size: 26px;
+}
+
+.progress-box, .activity {
+    background: white;
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 35px;
+    border-radius: 22px;
+    box-shadow: 0 4px 15px #0001;
+}
+
+.progress-track {
+    height: 25px;
+    background: #E6EDF5;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #76BE91;
+    transition: width 0.4s;
+}
+
+.number-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    max-width: 750px;
+    margin: 30px auto;
+}
+
+.number-btn {
+    background: #E4F0FF;
+    color: #315F91;
+    border: 2px solid #C5DDF7;
+    border-radius: 16px;
+    padding: 30px 10px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.number-btn:hover {
+    background: #D0E5FC;
+}
+
+.number-btn.heard {
+    background: #DDF3E4;
+    border-color: #79BB91;
+}
+
+.option-btn {
+    background: #78A9DC;
+    color: white;
+    border: none;
+    border-radius: 13px;
+    padding: 18px 38px;
+    margin: 12px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.option-btn:hover {
+    background: #477FB8;
+}
+
+.option-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.feedback {
+    font-size: 23px;
+    font-weight: bold;
+    min-height: 32px;
+    margin-top: 20px;
+}
+
+.success {
+    color: #23834B;
+}
+
+.error {
+    color: #B45B54;
+}
+
+.nav-btn {
+    background: #547B9D;
+    color: white;
+    padding: 17px 35px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 12px;
+    font-size: 21px;
+}
+
+.nav-btn:disabled {
+    background: #A9B8AD;
+    cursor: not-allowed;
+}
+
+.back-btn {
+    display: inline-block;
+    background: #547B9D;
+    color: white;
+    padding: 17px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin: 30px;
+    font-size: 20px;
+}
+
+.activity-page {
+    display: none;
+}
+
+.activity-page.active {
+    display: block;
+}
+
+button:focus-visible, a:focus-visible {
+    outline: 3px solid #E5AD47;
+    outline-offset: 3px;
+}
+
+@media(max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    .progress-box, .activity {
+        padding: 20px;
+    }
+
+    .number-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .number-btn {
+        padding: 22px 8px;
+        font-size: 28px;
+    }
+
+    .option-btn {
+        padding: 15px 25px;
+        font-size: 21px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <h1>🔢 Let's Learn Numbers!</h1>
-    <p>Learn numbers, count objects and play a fun game!</p>
+<header>
+    <h1>🔢 Welcome to Number Learning!</h1>
+    <p>Let's learn numbers, count objects and play fun games!</p>
+</header>
 
-    <div class="progress-box">
-        <h2>📊 Your Number Progress</h2>
-        <p id="progressText">0 of 4 activities completed (0%)</p>
-        <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+<div class="progress-box">
+    <h2>🏆 Your Learning Progress</h2>
+    <h3 id="progressText">0 / 4 Activities Completed</h3>
+
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <h2>1. Learn Numbers</h2>
-    <p>Listen to all numbers from 1 to 10!</p>
+    <p id="percentage">0% Completed</p>
+</div>
+
+<!-- ACTIVITY 1 -->
+
+<div class="activity activity-page active" id="page1">
+    <h2>1. 🔊 Learn Numbers</h2>
+    <p>Click each number to hear its pronunciation!</p>
 
     <div class="number-container">
-        <button onclick="speak('One')">1️⃣ One 🔊</button>
-        <button onclick="speak('Two')">2️⃣ Two 🔊</button>
-        <button onclick="speak('Three')">3️⃣ Three 🔊</button>
-        <button onclick="speak('Four')">4️⃣ Four 🔊</button>
-        <button onclick="speak('Five')">5️⃣ Five 🔊</button>
-        <button onclick="speak('Six')">6️⃣ Six 🔊</button>
-        <button onclick="speak('Seven')">7️⃣ Seven 🔊</button>
-        <button onclick="speak('Eight')">8️⃣ Eight 🔊</button>
-        <button onclick="speak('Nine')">9️⃣ Nine 🔊</button>
-        <button onclick="speak('Ten')">🔟 Ten 🔊</button>
+        <button class="number-btn" data-word="One" onclick="speak('One')">1</button>
+        <button class="number-btn" data-word="Two" onclick="speak('Two')">2</button>
+        <button class="number-btn" data-word="Three" onclick="speak('Three')">3</button>
+        <button class="number-btn" data-word="Four" onclick="speak('Four')">4</button>
+        <button class="number-btn" data-word="Five" onclick="speak('Five')">5</button>
+        <button class="number-btn" data-word="Six" onclick="speak('Six')">6</button>
+        <button class="number-btn" data-word="Seven" onclick="speak('Seven')">7</button>
+        <button class="number-btn" data-word="Eight" onclick="speak('Eight')">8</button>
+        <button class="number-btn" data-word="Nine" onclick="speak('Nine')">9</button>
+        <button class="number-btn" data-word="Ten" onclick="speak('Ten')">10</button>
     </div>
 
-    <button id="learnDone" onclick="completeActivity('learn')" disabled>
-        Mark Numbers as Completed
+    <p id="listenStatus">0 / 10 numbers listened to</p>
+
+    <button class="option-btn" id="learnDone"
+        onclick="completeActivity('learn')" disabled>
+        Listen to All Numbers First
     </button>
 
-    <h2>2. Count the Objects</h2>
-    <p>🍎 🍎 🍎</p>
-    <p>How many apples are there?</p>
+    <p class="feedback" id="learnResult"></p>
+</div>
 
-    <button onclick="checkCount(3)">3</button>
-    <button onclick="checkCount(2)">2</button>
-    <button onclick="checkCount(4)">4</button>
-    <p id="count-result"></p>
+<!-- ACTIVITY 2 -->
 
-    <h2>3. Number Quiz</h2>
+<div class="activity activity-page" id="page2">
+    <h2>2. 🍎 Count the Objects</h2>
+    <p>Count these apples carefully!</p>
+
+    <h1 style="font-size:65px;">🍎 🍎 🍎</h1>
+
+    <h3>How many apples are there?</h3>
+
+    <button class="option-btn" onclick="checkCount(2)">2</button>
+    <button class="option-btn" onclick="checkCount(3)">3</button>
+    <button class="option-btn" onclick="checkCount(4)">4</button>
+
+    <p class="feedback" id="countResult"></p>
+</div>
+
+<!-- ACTIVITY 3 -->
+
+<div class="activity activity-page" id="page3">
+    <h2>3. 🧠 Number Quiz</h2>
     <p>Which number comes after 4?</p>
 
-    <button onclick="checkQuiz(5)">5</button>
-    <button onclick="checkQuiz(6)">6</button>
-    <button onclick="checkQuiz(3)">3</button>
-    <p id="quiz-result"></p>
+    <button class="option-btn" onclick="checkQuiz(3)">3</button>
+    <button class="option-btn" onclick="checkQuiz(5)">5</button>
+    <button class="option-btn" onclick="checkQuiz(6)">6</button>
 
-    <h2>4. Match the Number</h2>
-    <p>Which number matches FIVE?</p>
+    <p class="feedback" id="quizResult"></p>
+</div>
 
-    <button onclick="matchNumber(3)">3</button>
-    <button onclick="matchNumber(5)">5</button>
-    <button onclick="matchNumber(7)">7</button>
-    <p id="match-result"></p>
+<!-- ACTIVITY 4 -->
 
-    <br>
-    <button onclick="location.href='student-dashboard.html'">
-        ⬅ Back to Student Dashboard
+<div class="activity activity-page" id="page4">
+    <h2>4. 🎯 Match the Number</h2>
+    <p>Which number matches the word FIVE?</p>
+
+    <button class="option-btn" onclick="matchNumber(3)">3</button>
+    <button class="option-btn" onclick="matchNumber(5)">5</button>
+    <button class="option-btn" onclick="matchNumber(7)">7</button>
+
+    <p class="feedback" id="matchResult"></p>
+</div>
+
+<h2 id="finalMessage"></h2>
+
+<div>
+    <button class="nav-btn" id="prevBtn"
+        onclick="changePage(-1)" disabled>
+        ⬅ Previous
     </button>
 
-    <script>
-        const storageKey = "learnEasyNumbersCompleted";
+    <button class="nav-btn" id="nextBtn"
+        onclick="changePage(1)">
+        Next ➡
+    </button>
+</div>
 
-        let completed = JSON.parse(
-            localStorage.getItem(storageKey) || "[]"
+<a href="student-dashboard.html" class="back-btn">
+    ⬅ Back to Student Dashboard
+</a>
+
+<script>
+
+const storageKey = "learnEasyNumbersCompleted";
+const heardKey = "learnEasyNumbersHeard";
+
+const activities = ["learn", "count", "quiz", "match"];
+
+const words = [
+    "One", "Two", "Three", "Four", "Five",
+    "Six", "Seven", "Eight", "Nine", "Ten"
+];
+
+function loadData(key) {
+    try {
+        const data = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+let completed = [
+    ...new Set(loadData(storageKey).filter(
+        item => activities.includes(item)
+    ))
+];
+
+let spokenNumbers = new Set(
+    loadData(heardKey).filter(
+        word => words.includes(word)
+    )
+);
+
+// PAGE NAVIGATION
+
+let currentPage = 1;
+
+function changePage(direction) {
+    const nextPage = currentPage + direction;
+
+    if (nextPage < 1 || nextPage > 4) return;
+
+    currentPage = nextPage;
+    showPage();
+}
+
+function showPage() {
+    document.querySelectorAll(".activity-page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById("page" + currentPage)
+        .classList.add("active");
+
+    document.getElementById("prevBtn").disabled =
+        currentPage === 1;
+
+    document.getElementById("nextBtn").disabled =
+        currentPage === 4;
+
+    window.scrollTo(0, 0);
+}
+
+// UPDATE PROGRESS
+
+function updateProgress() {
+    let percentage = Math.round(completed.length / 4 * 100);
+
+    document.getElementById("progressText").textContent =
+        completed.length + " / 4 Activities Completed";
+
+    document.getElementById("progressFill").style.width =
+        percentage + "%";
+
+    document.getElementById("percentage").textContent =
+        percentage + "% Completed";
+
+    document.getElementById("listenStatus").textContent =
+        spokenNumbers.size + " / 10 numbers listened to";
+
+    document.querySelectorAll(".number-btn").forEach(button => {
+        if (spokenNumbers.has(button.dataset.word)) {
+            button.classList.add("heard");
+        }
+    });
+
+    document.getElementById("learnDone").disabled =
+        completed.includes("learn") ||
+        spokenNumbers.size !== 10;
+
+    document.getElementById("learnDone").textContent =
+        completed.includes("learn")
+        ? "✓ Numbers Completed"
+        : spokenNumbers.size === 10
+        ? "Mark Numbers as Completed"
+        : "Listen to All Numbers First";
+
+    if (completed.length === 4) {
+        document.getElementById("finalMessage").textContent =
+            "🎉 Congratulations! You completed all number activities!";
+    } else {
+        document.getElementById("finalMessage").textContent = "";
+    }
+}
+
+// COMPLETE ACTIVITY
+
+function completeActivity(id) {
+    if (!activities.includes(id)) return;
+
+    if (id === "learn" && spokenNumbers.size !== 10) {
+        return;
+    }
+
+    if (!completed.includes(id)) {
+        completed.push(id);
+
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(completed)
+        );
+    }
+
+    document.getElementById("learnResult").textContent =
+        "🎉 Excellent! You completed number learning!";
+
+    document.getElementById("learnResult").className =
+        "feedback success";
+
+    updateProgress();
+}
+
+// NUMBER PRONUNCIATION
+
+function speak(word) {
+    if (!("speechSynthesis" in window)) {
+        alert("Your browser does not support speech.");
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(word);
+
+    speech.lang = "en-US";
+    speech.rate = 0.85;
+
+    speech.onend = function() {
+        spokenNumbers.add(word);
+
+        localStorage.setItem(
+            heardKey,
+            JSON.stringify([...spokenNumbers])
         );
 
-        function updateProgress() {
-            const percentage = Math.round(
-                (completed.length / 4) * 100
-            );
-
-            document.getElementById("progressText").textContent =
-                completed.length + " of 4 activities completed (" +
-                percentage + "%)";
-
-            document.getElementById("progressFill").style.width =
-                percentage + "%";
-
-            ["learn", "count", "quiz", "match"].forEach(id => {
-                const button = document.getElementById(
-                    id === "learn" ? "learnDone" : id + "-done"
-                );
-
-                if (button) {
-                    button.disabled = completed.includes(id);
-                    if (completed.includes(id)) {
-                        button.textContent = "✓ Completed";
-                    }
-                }
-            });
-        }
-
-        function completeActivity(id) {
-            if (!completed.includes(id)) {
-                completed.push(id);
-                localStorage.setItem(
-                    storageKey,
-                    JSON.stringify(completed)
-                );
-            }
-
-            updateProgress();
-        }
-
-        let spokenNumbers = new Set();
-
-        function speak(word) {
-            const speech = new SpeechSynthesisUtterance(word);
-            speech.lang = "en-US";
-            speechSynthesis.cancel();
-            speechSynthesis.speak(speech);
-
-            spokenNumbers.add(word);
-
-            if (spokenNumbers.size === 10) {
-                document.getElementById("learnDone").disabled = false;
-            }
-        }
-
-        function checkCount(answer) {
-            if (answer === 3) {
-                document.getElementById("count-result").textContent =
-                    "🎉 Excellent! There are 3 apples!";
-
-                completeActivity("count");
-            } else {
-                document.getElementById("count-result").textContent =
-                    "Try again! Count the apples carefully.";
-            }
-        }
-
-        function checkQuiz(answer) {
-            if (answer === 5) {
-                document.getElementById("quiz-result").textContent =
-                    "🌟 Correct! Great job!";
-
-                completeActivity("quiz");
-            } else {
-                document.getElementById("quiz-result").textContent =
-                    "Try again! You can do it!";
-            }
-        }
-
-        function matchNumber(answer) {
-            if (answer === 5) {
-                document.getElementById("match-result").textContent =
-                    "🌟 Amazing! You matched FIVE correctly!";
-
-                completeActivity("match");
-            } else {
-                document.getElementById("match-result").textContent =
-                    "😊 Try again! Look carefully.";
-            }
-        }
-
         updateProgress();
-    </script>
+    };
+
+    speechSynthesis.speak(speech);
+}
+
+// COUNTING ACTIVITY
+
+function checkCount(answer) {
+    if (completed.includes("count")) return;
+
+    const result = document.getElementById("countResult");
+
+    if (answer === 3) {
+        result.textContent = "🎉 Excellent! You counted 3 apples!";
+        result.className = "feedback success";
+        completeActivity("count");
+    } else {
+        result.textContent = "😊 Try again! Count the apples carefully.";
+        result.className = "feedback error";
+    }
+}
+
+// QUIZ ACTIVITY
+
+function checkQuiz(answer) {
+    if (completed.includes("quiz")) return;
+
+    const result = document.getElementById("quizResult");
+
+    if (answer === 5) {
+        result.textContent = "🌟 Correct! 5 comes after 4!";
+        result.className = "feedback success";
+        completeActivity("quiz");
+    } else {
+        result.textContent = "😊 Not quite! Try again!";
+        result.className = "feedback error";
+    }
+}
+
+// MATCHING ACTIVITY
+
+function matchNumber(answer) {
+    if (completed.includes("match")) return;
+
+    const result = document.getElementById("matchResult");
+
+    if (answer === 5) {
+        result.textContent = "🎯 Amazing! FIVE matches number 5!";
+        result.className = "feedback success";
+        completeActivity("match");
+    } else {
+        result.textContent = "😊 Try again! Read the word carefully.";
+        result.className = "feedback error";
+    }
+}
+
+// INITIAL LOAD
+
+updateProgress();
+showPage();
+
+</script>
 
 </body>
 </html>
