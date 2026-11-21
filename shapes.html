@@ -1,187 +1,360 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearnEasy - Shapes</title>
+    <title>LearnEasy - Shapes Game</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
             text-align: center;
-            background-color: #f3e5f5;
             margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         h1 {
             color: #7b1fa2;
-            padding: 20px;
         }
 
-        .progress-section {
-            max-width: 500px;
-            margin: 15px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
+        .progress {
+            font-size: 20px;
+            color: #555;
+            margin: 15px;
         }
 
-        .progress-bar {
-            height: 22px;
-            background: #ddd;
-            border-radius: 20px;
-            overflow: hidden;
+        .shape-picture {
+            font-size: 180px;
+            padding: 35px;
+            background: #faf0ff;
+            border-radius: 25px;
+            margin: 20px auto;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #7b1fa2;
-            transition: width 0.3s;
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
         }
 
-        .shapes {
+        .options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .shape {
-            font-size: 65px;
-        }
-
-        p {
-            font-size: 22px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         button {
-            background: #7b1fa2;
-            color: white;
+            padding: 18px;
+            font-size: 22px;
             border: none;
-            padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 15px;
+            background: #ce93d8;
+            color: white;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #ab47bc;
+            transform: scale(1.03);
         }
 
         button:disabled {
-            background: #777;
-            cursor: default;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
-        a {
-            display: inline-block;
+        #feedback {
+            font-size: 24px;
+            font-weight: bold;
             margin: 20px;
+            min-height: 30px;
+        }
+
+        #nextBtn, #restartBtn {
+            background: #4caf50;
+            margin-top: 15px;
+        }
+
+        #nextBtn:hover, #restartBtn:hover {
+            background: #388e3c;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #ff9800;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            font-size: 18px;
+        }
+
+        .back-btn:hover {
+            background: #f57c00;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 500px) {
+            .shape-picture {
+                font-size: 140px;
+                min-height: 200px;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>🔺 Learn Shapes</h1>
-    <p>Let's learn different shapes!</p>
+<div class="container">
 
-    <div class="progress-section">
-        <h2>Your Shapes Progress</h2>
-        <p id="progressText">0 out of 6 shapes completed (0%)</p>
+    <h1>🔷 Learn Shapes 🔶</h1>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+    <div id="gameArea">
+
+        <div class="progress" id="progress">
+            Question 1 of 6
         </div>
+
+        <div class="shape-picture" id="shapePicture">
+            🔴
+        </div>
+
+        <div class="question">
+            What is this shape?
+        </div>
+
+        <div class="options" id="options"></div>
+
+        <div id="feedback"></div>
+
+        <button id="nextBtn" class="hidden" onclick="nextQuestion()">
+            Next ➡️
+        </button>
+
     </div>
 
-    <div class="shapes" id="shapesContainer"></div>
+    <div id="resultArea" class="hidden">
 
-    <a href="student-dashboard.html">⬅ Back to Student Dashboard</a>
+        <h2>🎉 Game Completed!</h2>
+
+        <h2 id="finalScore"></h2>
+
+        <p id="resultMessage"></p>
+
+        <button id="restartBtn" onclick="startGame()">
+            Play Again 🔄
+        </button>
+
+    </div>
+
+    <a href="student-dashboard.html" class="back-btn">
+        ⬅ Back to Dashboard
+    </a>
+
+</div>
 
 <script>
-    const shapeList = [
-        ["🔴", "Circle"],
-        ["🟥", "Square"],
-        ["🔺", "Triangle"],
-        ["🟦", "Rectangle"],
-        ["⭐", "Star"],
-        ["❤️", "Heart"]
+
+    const shapes = [
+        {
+            emoji: "🔴",
+            name: "Circle",
+            options: ["Circle", "Square", "Triangle", "Star"]
+        },
+        {
+            emoji: "🟥",
+            name: "Square",
+            options: ["Rectangle", "Circle", "Square", "Heart"]
+        },
+        {
+            emoji: "🔺",
+            name: "Triangle",
+            options: ["Star", "Triangle", "Circle", "Square"]
+        },
+        {
+            emoji: "🟦",
+            name: "Rectangle",
+            options: ["Heart", "Rectangle", "Triangle", "Circle"]
+        },
+        {
+            emoji: "⭐",
+            name: "Star",
+            options: ["Square", "Star", "Rectangle", "Heart"]
+        },
+        {
+            emoji: "❤️",
+            name: "Heart",
+            options: ["Circle", "Triangle", "Heart", "Star"]
+        }
     ];
 
-    const STORAGE_KEY = "learnEasyShapesCompleted";
+    let currentQuestion = 0;
+    let score = 0;
+    let selectedShapes = [];
 
-    let completedShapes = [];
+    function startGame() {
+        currentQuestion = 0;
+        score = 0;
 
-    try {
-        completedShapes = JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
-        ) || [];
-    } catch (error) {
-        completedShapes = [];
+        selectedShapes = [...shapes].sort(() => Math.random() - 0.5);
+
+        document.getElementById("gameArea").classList.remove("hidden");
+        document.getElementById("resultArea").classList.add("hidden");
+
+        showQuestion();
     }
 
-    const container = document.getElementById("shapesContainer");
+    function showQuestion() {
 
-    function updateProgress() {
-        const count = completedShapes.length;
-        const percentage = Math.round(
-            (count / shapeList.length) * 100
-        );
+        const shape = selectedShapes[currentQuestion];
 
-        document.getElementById("progressText").innerText =
-            `${count} out of ${shapeList.length} shapes completed (${percentage}%)`;
+        document.getElementById("progress").textContent =
+            `Question ${currentQuestion + 1} of ${selectedShapes.length}`;
 
-        document.getElementById("progressFill").style.width =
-            percentage + "%";
+        document.getElementById("shapePicture").textContent = shape.emoji;
 
-        shapeList.forEach(item => {
-            const button = document.getElementById(
-                "button-" + item[1]
-            );
+        document.getElementById("feedback").textContent = "";
 
-            if (completedShapes.includes(item[1])) {
-                button.innerText = "✓ Completed";
-                button.disabled = true;
-            }
+        document.getElementById("nextBtn").classList.add("hidden");
+
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = "";
+
+        const shuffledOptions = [...shape.options].sort(() => Math.random() - 0.5);
+
+        shuffledOptions.forEach(option => {
+
+            const button = document.createElement("button");
+
+            button.textContent = option;
+
+            button.onclick = () => checkAnswer(option, button);
+
+            optionsDiv.appendChild(button);
+
         });
     }
 
-    function markCompleted(name) {
-        if (!completedShapes.includes(name)) {
-            completedShapes.push(name);
+    function checkAnswer(answer, selectedButton) {
 
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(completedShapes)
+        const shape = selectedShapes[currentQuestion];
+
+        const buttons = document.querySelectorAll("#options button");
+
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+        const feedback = document.getElementById("feedback");
+
+        if (answer === shape.name) {
+
+            score++;
+
+            feedback.textContent = "🎉 Correct! Well done!";
+
+            feedback.style.color = "green";
+
+            let completed = JSON.parse(
+                localStorage.getItem("learnEasyShapesCompleted") || "[]"
             );
 
-            updateProgress();
+            if (!completed.includes(shape.name)) {
+                completed.push(shape.name);
+            }
+
+            localStorage.setItem(
+                "learnEasyShapesCompleted",
+                JSON.stringify(completed)
+            );
+
+        } else {
+
+            feedback.textContent = "😊 Good try! The answer is " + shape.name;
+
+            feedback.style.color = "red";
+
+        }
+
+        document.getElementById("nextBtn").classList.remove("hidden");
+
+    }
+
+    function nextQuestion() {
+
+        currentQuestion++;
+
+        if (currentQuestion < selectedShapes.length) {
+
+            showQuestion();
+
+        } else {
+
+            showResult();
+
         }
     }
 
-    shapeList.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "card";
+    function showResult() {
 
-        card.innerHTML = `
-            <div class="shape">${item[0]}</div>
-            <p>${item[1]}</p>
-            <button id="button-${item[1]}">
-                Mark as Completed
-            </button>
-        `;
+        document.getElementById("gameArea").classList.add("hidden");
 
-        card.querySelector("button").addEventListener("click", () => {
-            markCompleted(item[1]);
-        });
+        document.getElementById("resultArea").classList.remove("hidden");
 
-        container.appendChild(card);
-    });
+        document.getElementById("finalScore").textContent =
+            `Your Score: ${score} / ${selectedShapes.length}`;
 
-    updateProgress();
+        if (score === selectedShapes.length) {
+
+            document.getElementById("resultMessage").textContent =
+                "Excellent! You know all the shapes! 🌟";
+
+        } else if (score >= 3) {
+
+            document.getElementById("resultMessage").textContent =
+                "Great job! Keep practising! 😊";
+
+        } else {
+
+            document.getElementById("resultMessage").textContent =
+                "Good try! Play again and learn more shapes! 💜";
+
+        }
+    }
+
+    startGame();
+
 </script>
 
 </body>

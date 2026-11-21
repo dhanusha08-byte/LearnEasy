@@ -2,95 +2,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LearnEasy - Red Colour</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnEasy - Find the Red</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff0f0;
-      text-align: center;
-      padding: 20px;
-    }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    h1 {
-      color: #dc2626;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fff0f0, #ffe0e0);
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      max-width: 750px;
-      margin: 30px auto;
-    }
+header {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 650px;
+    margin: auto;
+    box-shadow: 0 4px 12px #0002;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 3px 10px #0002;
-    }
+h1 {
+    color: #dc2626;
+}
 
-    .emoji {
-      font-size: 60px;
-    }
+.game-box {
+    background: white;
+    max-width: 520px;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px #0002;
+}
 
-    button {
-      background: #dc2626;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-  </style>
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    background: #fff0f0;
+    padding: 13px;
+    border-radius: 15px;
+    color: #b91c1c;
+    font-weight: bold;
+}
+
+.progress {
+    height: 12px;
+    background: #eee;
+    border-radius: 20px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #ef4444;
+    width: 0%;
+    transition: 0.3s;
+}
+
+.question {
+    font-size: 21px;
+    font-weight: bold;
+    color: #444;
+    margin: 20px 0;
+}
+
+.objects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.object-btn {
+    background: #fffafa;
+    border: 2px solid #ffd0d0;
+    border-radius: 18px;
+    padding: 18px 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.object-btn:hover:not(:disabled) {
+    background: #ffe4e4;
+    transform: scale(1.04);
+}
+
+.object-btn:disabled {
+    cursor: default;
+}
+
+.emoji {
+    font-size: 55px;
+}
+
+.object-name {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #444;
+}
+
+.correct {
+    background: #c8f7d5 !important;
+    border-color: #22c55e !important;
+}
+
+.wrong {
+    background: #ffd2d2 !important;
+    border-color: #ef4444 !important;
+}
+
+#feedback {
+    font-size: 19px;
+    font-weight: bold;
+    min-height: 30px;
+    margin: 20px 0;
+}
+
+.main-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 8px;
+}
+
+.main-btn:hover {
+    background: #b91c1c;
+}
+
+#result {
+    display: none;
+}
+
+.result-emoji {
+    font-size: 75px;
+}
+
+.back-btn {
+    display: inline-block;
+    background: #6c63ff;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+footer {
+    color: #777;
+    margin-top: 25px;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>❤️ Let's Learn Red Colour!</h1>
-  <p>Look around! Can you find things that are red?</p>
+<header>
+    <h1>❤️ Find the Red Object! ❤️</h1>
+    <p>Look carefully and find the object that is RED!</p>
+</header>
 
-  <div class="container">
+<div class="game-box">
 
-    <div class="card">
-      <div class="emoji">🍎</div>
-      <h2>Apple</h2>
+    <div class="score-board">
+        <span>⭐ Score: <span id="score">0</span></span>
+        <span>🎯 Question: <span id="number">1</span>/6</span>
     </div>
 
-    <div class="card">
-      <div class="emoji">🍓</div>
-      <h2>Strawberry</h2>
+    <div class="progress">
+        <div class="progress-fill" id="progress"></div>
     </div>
 
-    <div class="card">
-      <div class="emoji">🌹</div>
-      <h2>Rose</h2>
+    <div id="game">
+
+        <div class="question">
+            Which object is RED? 🔴
+        </div>
+
+        <div class="objects" id="objects"></div>
+
+        <div id="feedback"></div>
+
+        <button class="main-btn" id="nextBtn"
+                onclick="nextQuestion()" hidden>
+            Next ➡️
+        </button>
+
     </div>
 
-    <div class="card">
-      <div class="emoji">🍒</div>
-      <h2>Cherry</h2>
+    <div id="result">
+        <div class="result-emoji" id="resultEmoji">🏆</div>
+        <h2>Wonderful! Game Completed!</h2>
+        <h3 id="finalScore"></h3>
+        <p id="resultMessage"></p>
+
+        <button class="main-btn" onclick="startGame()">
+            🔄 Play Again
+        </button>
     </div>
 
-    <div class="card">
-      <div class="emoji">🚒</div>
-      <h2>Fire Truck</h2>
-    </div>
+</div>
 
-    <div class="card">
-      <div class="emoji">🎈</div>
-      <h2>Red Balloon</h2>
-    </div>
+<a href="activities.html" class="back-btn">
+    ⬅ Back to Activities
+</a>
 
-  </div>
+<footer>
+    🌈 LearnEasy - Learn, Play and Enjoy! 🌈
+</footer>
 
-  <button onclick="location.href='activities.html'">
-    Back to Activities
-  </button>
+<script>
+
+const rounds = [
+    {
+        answer: "Apple",
+        emoji: "🍎",
+        choices: [
+            ["Apple", "🍎"],
+            ["Banana", "🍌"],
+            ["Grapes", "🍇"],
+            ["Orange", "🍊"]
+        ]
+    },
+    {
+        answer: "Strawberry",
+        emoji: "🍓",
+        choices: [
+            ["Strawberry", "🍓"],
+            ["Watermelon", "🍉"],
+            ["Pear", "🍐"],
+            ["Lemon", "🍋"]
+        ]
+    },
+    {
+        answer: "Rose",
+        emoji: "🌹",
+        choices: [
+            ["Rose", "🌹"],
+            ["Sunflower", "🌻"],
+            ["Blue Heart", "💙"],
+            ["Leaf", "🍃"]
+        ]
+    },
+    {
+        answer: "Cherry",
+        emoji: "🍒",
+        choices: [
+            ["Cherry", "🍒"],
+            ["Banana", "🍌"],
+            ["Kiwi", "🥝"],
+            ["Corn", "🌽"]
+        ]
+    },
+    {
+        answer: "Fire Truck",
+        emoji: "🚒",
+        choices: [
+            ["Fire Truck", "🚒"],
+            ["School Bus", "🚌"],
+            ["Tractor", "🚜"],
+            ["Police Car", "🚓"]
+        ]
+    },
+    {
+        answer: "Red Balloon",
+        emoji: "🎈",
+        choices: [
+            ["Red Balloon", "🎈"],
+            ["Blue Diamond", "🔷"],
+            ["Green Apple", "🍏"],
+            ["Yellow Circle", "🟡"]
+        ]
+    }
+];
+
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+
+function shuffle(array) {
+    return [...array].sort(() => Math.random() - 0.5);
+}
+
+function startGame() {
+    questions = shuffle(rounds);
+    current = 0;
+    score = 0;
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("game").style.display = "block";
+    document.getElementById("result").style.display = "none";
+
+    showQuestion();
+}
+
+function showQuestion() {
+    answered = false;
+
+    const question = questions[current];
+
+    document.getElementById("number").textContent = current + 1;
+
+    document.getElementById("progress").style.width =
+        (current / questions.length * 100) + "%";
+
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").hidden = true;
+
+    const container = document.getElementById("objects");
+    container.innerHTML = "";
+
+    shuffle(question.choices).forEach(choice => {
+
+        const button = document.createElement("button");
+        button.className = "object-btn";
+
+        button.innerHTML = `
+            <div class="emoji">${choice[1]}</div>
+            <div class="object-name">${choice[0]}</div>
+        `;
+
+        button.onclick = () => checkAnswer(choice[0], button);
+
+        container.appendChild(button);
+    });
+}
+
+function checkAnswer(selected, button) {
+
+    if (answered) return;
+
+    answered = true;
+
+    const correct = questions[current].answer;
+
+    const buttons = document.querySelectorAll(".object-btn");
+
+    buttons.forEach(btn => {
+
+        btn.disabled = true;
+
+        if (btn.querySelector(".object-name").textContent === correct) {
+            btn.classList.add("correct");
+        }
+
+    });
+
+    if (selected === correct) {
+
+        score++;
+
+        document.getElementById("score").textContent = score;
+
+        document.getElementById("feedback").textContent =
+            "🎉 Amazing! You found the RED object!";
+
+        document.getElementById("feedback").style.color = "#16a34a";
+
+    } else {
+
+        button.classList.add("wrong");
+
+        document.getElementById("feedback").textContent =
+            "😊 Good try! The correct answer is " + correct + "!";
+
+        document.getElementById("feedback").style.color = "#dc2626";
+    }
+
+    document.getElementById("nextBtn").hidden = false;
+
+    document.getElementById("nextBtn").textContent =
+        current === 5 ? "See My Result 🏆" : "Next Question ➡️";
+}
+
+function nextQuestion() {
+
+    current++;
+
+    if (current < questions.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+
+    document.getElementById("game").style.display = "none";
+    document.getElementById("result").style.display = "block";
+    document.getElementById("progress").style.width = "100%";
+
+    document.getElementById("finalScore").textContent =
+        "Your Score: " + score + " / 6";
+
+    let message;
+    let emoji;
+
+    if (score === 6) {
+        message = "Perfect! You are a Colour Champion!";
+        emoji = "🏆";
+    } else if (score >= 4) {
+        message = "Excellent! You know your colours!";
+        emoji = "🌟";
+    } else if (score >= 2) {
+        message = "Good job! Keep practising!";
+        emoji = "👏";
+    } else {
+        message = "Nice try! Let's play again!";
+        emoji = "😊";
+    }
+
+    document.getElementById("resultMessage").textContent = message;
+    document.getElementById("resultEmoji").textContent = emoji;
+}
+
+startGame();
+
+</script>
 
 </body>
 </html>
